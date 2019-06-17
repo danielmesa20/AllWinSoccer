@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">AllWinSoccer</string>
+    <string name="title_activity_principal">PrincipalActivity</string>
+
+    //ApostarActivity
+    <string name="b_apostar">Ingresar</string>
+    <string name="hint">Goles</string>
+    <string name="equipoL"> Local</string>
+    <string name="equipoV"> Visitante</string>
+    <string name="fecha">Fecha: %1$s</string>
+
+    //Recycler View
+    <string name="nameLocal">Equipo </string>
+    <string name="descripcion">Descripción</string>
+
+    //Barra de navegación
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Apostar</string>
+    <string name="title_notifications">Pronósticos</string>
+    <string name="title_activity_apostar">ApostarActivity</string>
+    <string name="title_position">Posición</string>
+
+    //PronosticoActivity
+    <string name="titulo">PRÓNOSTICOS</string>
+    <string name="puntos">Puntos</string>
+    <string name="title_activity_pronostico">PronosticoActivity</string>
+    <string name="title_activity_posicion">PosicionActivity</string>
+    <string name="goles">99</string>
+    <string name="tienePuntos">Partido no Finalizado</string>
+    <string name="puntaje">Puntos Acumulados: %1$d</string>
+    <string name="noPuntaje"> Todavia no tienes puntos</string>
+
+    //DetallesPartidos
+    <string name="detallePartido">DETALLES DEL PARTIDO</string>
+    <string name="NA">NA</string>
+    <string name="salir">Salir</string>
+    <string name="partidoFinalizado">Partido Finalizado</string>
+    <string name="partidoNoFinalizado">Partido No Finalizado</string>
+    <string name="fechaPartido"> Fecha de inicio: %1$s</string>
+    <string name="ubicacionPartido">Estadio: %1$s</string>
+    <string name="title_activity_update">UpdateActivity</string>
+
+</resources>
