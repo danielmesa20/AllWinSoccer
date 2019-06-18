@@ -76,7 +76,7 @@ public class PosicionActivity extends AppCompatActivity{
         progressDialog.show();
 
         usuarios = new ArrayList<>();
-        adapterRecyclerPosicion = new AdapterRecyclerPosicion(usuarios, this);
+        adapterRecyclerPosicion = new AdapterRecyclerPosicion(usuarios, this, getIntent().getStringExtra("idUser"));
         rv.setAdapter(adapterRecyclerPosicion);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Usuarios").orderBy("puntosUser", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

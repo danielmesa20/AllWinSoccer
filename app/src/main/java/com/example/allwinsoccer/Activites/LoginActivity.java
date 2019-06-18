@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInAccount account = result.getSignInAccount();
             if(account != null){
                 buscarAUsuarios(account.getId(),account.getEmail(),String.valueOf(account.getPhotoUrl()));
-                goDashboard();
+                goPrincipalActivity();
             }
         }else{
             Toast.makeText(this, "NO se pudo ingresar "+result.getStatus().toString(), Toast.LENGTH_LONG).show();
@@ -96,7 +96,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                         Usuario u = document.toObject(Usuario.class);
-                        db.collection("Usuarios").document(u.getIdUsuario()).update("url",url);
+                        if (u.getUrl() == null || u.getUrl().isEmpty()) {
+                            db.collection("Usuarios").document(u.getIdUsuario()).update("url", url);
+                        }
                     }
                 }else{
                     Toast.makeText(LoginActivity.this, "Error getting documents: "+task.getException(), Toast.LENGTH_SHORT).show();
@@ -134,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         return name;
     }
 
-    private void goDashboard() {
+    private void goPrincipalActivity() {
         Intent i = new Intent(this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);

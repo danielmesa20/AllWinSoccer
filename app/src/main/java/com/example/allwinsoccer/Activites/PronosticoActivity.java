@@ -39,6 +39,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
     private AdapterRecyclerPronostico adapterRecyclerPronostico;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TextView tv_puntos;
+    ProgressDialog   progressDialog, progressDialog2;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -75,15 +76,16 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
         rv.setLayoutManager(new LinearLayoutManager(this));
         tv_puntos = findViewById(R.id.puntos);
         tv_puntos.setVisibility(View.INVISIBLE);
+        progressDialog = new ProgressDialog(PronosticoActivity.this);
+        progressDialog2 = new ProgressDialog(PronosticoActivity.this);
         listarPronosticos();
     }
 
     private void listarPronosticos() {
 
-        ProgressDialog progressDialog = new ProgressDialog(PronosticoActivity.this);
-        progressDialog.setMessage("Cargando Pronósticos");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+        progressDialog2.setMessage("Cargando Pronósticos");
+        progressDialog2.setCancelable(false);
+        progressDialog2.show();
 
         pronosticos = new ArrayList<>();
         adapterRecyclerPronostico = new AdapterRecyclerPronostico(pronosticos, this);
@@ -110,13 +112,17 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
                     adapterRecyclerPronostico.notifyDataSetChanged();
                 } else
                     Toast.makeText(PronosticoActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
+
+                progressDialog2.dismiss();
             }
         });
 
-        progressDialog.dismiss();
     }
 
     private void buscarPartido(String idPartido){
+        progressDialog.setMessage("Cargando detalles del partido");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Partidos").whereEqualTo("idPartido", idPartido).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -168,6 +174,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
                     }
                 });
 
+        progressDialog.dismiss();
         return alertDialog;
     }
 
@@ -244,12 +251,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
     @Override
     public void onNoteClick(int position) {
         Pronostico p = pronosticos.get(position);
-        ProgressDialog   progressDialog = new ProgressDialog(PronosticoActivity.this);
-        progressDialog.setMessage("Cargando detalles del partido");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
         buscarPartido(p.getIdPartido());
-        progressDialog.dismiss();
     }
 
 }

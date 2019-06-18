@@ -18,7 +18,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/recycler_view_item" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -34,7 +35,7 @@
 
         <ImageView
             android:id="@+id/b_local"
-            android:layout_width="wrap_content"
+            android:layout_width="65dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/descripcion"
             android:gravity="center"
@@ -78,7 +79,7 @@
 
         <ImageView
             android:id="@+id/b_visit"
-            android:layout_width="wrap_content"
+            android:layout_width="65dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/descripcion"
             android:src="@drawable/py" />
@@ -116,13 +117,13 @@
         app:layout_constraintBottom_toTopOf="@+id/nav_view">
 
         <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:onClick="registrarPronostico"
             android:src="@drawable/balon"
             app:backgroundTint="@color/colorWhite"
-            app:maxImageSize="62dp" />
+            app:maxImageSize="55dp" />
 
     </LinearLayout>
 
@@ -131,10 +132,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
         android:background="@color/colorPrimaryDark"
+        android:scrollbarSize="0dp"
+        app:elevation="0dp"
+        app:itemHorizontalTranslationEnabled="false"
         app:itemIconTint="@color/colorWhite"
         app:itemTextColor="@color/colorWhite"
         app:labelVisibilityMode="labeled"

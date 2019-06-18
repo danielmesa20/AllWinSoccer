@@ -3,7 +3,19 @@ package com.example.allwinsoccer.Models;
 public class Equipo {
 
     private String nombre, grupo;
-    private  int puntos, gFavor, gContra;
+    private  int puntos, gFavor, gContra, pG, pE, pP;
+
+    public int getpG() { return pG; }
+
+    public void setpG(int pG) { this.pG = pG; }
+
+    public int getpE() { return pE; }
+
+    public void setpE(int pE) { this.pE = pE; }
+
+    public int getpP() { return pP; }
+
+    public void setpP(int pP) { this.pP = pP; }
 
     public String getNombre() {
         return nombre;
@@ -44,6 +56,5 @@ public class Equipo {
     public void setgContra(int gContra) {
         this.gContra = gContra;
     }
-
 
 }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -22,15 +21,13 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
-public class PrincipalActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class PrincipalActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient googleApiClient;
-    private  String idUsuario;
-    private  Uri urlUsuario;
+    private String idUsuario;
+    private Uri urlUsuario;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
@@ -78,9 +75,6 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
                 }
             });
         }
-        if(idUsuario == null){
-            Toast.makeText(this, "Error principal", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
@@ -89,17 +83,11 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
             if (account != null) {
                 idUsuario = account.getId();
                 urlUsuario = account.getPhotoUrl();
-                if(!idUsuario.equals("105410880830662482170")){
-                    BottomNavigationView navView = findViewById(R.id.nav_view);
-                    Menu nav_Menu = navView.getMenu();
-                    nav_Menu.findItem(R.id.navigation_update).setVisible(false);
-                }
-            }else{
+            } else {
                 Toast.makeText(this, "Error handleSignInResult", Toast.LENGTH_SHORT).show();
             }
-        } else {
-           goLogin();
-        }
+        } else
+            goLogin();
     }
 
     @Override
@@ -146,14 +134,13 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
     private void goUpdate() {
         Intent i = new Intent(PrincipalActivity.this, UpdateActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 
-    private  void goLogin(){
+    private void goLogin() {
         Intent i = new Intent(this, LoginActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }
-
 }

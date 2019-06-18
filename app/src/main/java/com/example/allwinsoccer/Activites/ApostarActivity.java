@@ -139,9 +139,7 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                             });
                         }
                     }
-
                 }
-
                 progressDialog.dismiss();
             }
         });
@@ -178,11 +176,15 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     private void reiniciar() {
         n_local.setText(R.string.equipoL);
         n_visit.setText(R.string.equipoV);
-        b_local.setVisibility(View.INVISIBLE);
-        b_visit.setVisibility(View.INVISIBLE);
-        idPartido = null;
         g_local.setText("");
         g_visit.setText("");
+        b_local.setVisibility(View.INVISIBLE);
+        b_visit.setVisibility(View.INVISIBLE);
+        n_visit.setVisibility(View.INVISIBLE);
+        n_local.setVisibility(View.INVISIBLE);
+        g_visit.setVisibility(View.INVISIBLE);
+        g_local.setVisibility(View.INVISIBLE);
+        idPartido = null;
     }
 
     public void registrarPronostico(View view) {

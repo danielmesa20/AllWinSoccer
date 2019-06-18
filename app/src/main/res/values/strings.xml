@@ -39,5 +39,9 @@
     <string name="fechaPartido"> Fecha de inicio: %1$s</string>
     <string name="ubicacionPartido">Estadio: %1$s</string>
     <string name="title_activity_update">UpdateActivity</string>
+    <string name="title_update">Actualizar</string>
+
+    //RecyclerPronostico
+    <string name="puntosObtenidos"> Puntos Obtenidos: %1$s</string>
 
 </resources>

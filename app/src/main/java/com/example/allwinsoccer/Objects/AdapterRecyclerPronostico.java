@@ -40,7 +40,7 @@ public class AdapterRecyclerPronostico extends RecyclerView.Adapter<AdapterRecyc
             if(p.getPuntos()!=-1){
                 pronosticosViewHolder.puntos.setText("Puntos Obtenidos: "+String.valueOf(p.getPuntos()));
             }else{
-                pronosticosViewHolder.puntos.setText("Partido no finalizado");
+                pronosticosViewHolder.puntos.setText(R.string.partidoNoFinalizado);
             }
             actualizarIMG(p.getNlocal(),pronosticosViewHolder.iv_bandera_local);
             actualizarIMG(p.getNvisit(),pronosticosViewHolder.iv_bandera_visit);

@@ -4,7 +4,22 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorWhite">#F7F7F7</color>
-    <color name="colorBlue">#1E3EF5</color>
+    <color name="colorBlue">#3F5BFD</color>
+    <color name="colorBlueDark">#16246F</color>
     <color name="colorGray">#2E2E2E</color>
+    <color name="colorYellow">#585858</color>
+    <color name="colorGreenRaro">#23044D1F</color>
+    <color name="colorBlack">#111111</color>
+
+
+    <color name="azulOscuroCopa">#145BBE</color>
+    <color name="amarilloCopa">#FFC22A</color>
+    <color name="blancoCopa"> #F2E7E4</color>
+    <color name="azulClaroCopa">#51CDCB</color>
+    <color name="verdeCopa">#51800b</color>
+    <color name="verdeeOscuroCopa">#37724d</color>
+
+
+
 
 </resources>

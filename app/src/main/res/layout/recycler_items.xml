@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
 
         <ImageView
             android:id="@+id/bLocal"
@@ -26,9 +27,8 @@
 
         <TextView
             android:id="@+id/nLocal"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
             android:gravity="center"
             android:text="@string/nameLocal"
             android:textColor="@color/colorWhite"
@@ -44,10 +44,8 @@
 
         <TextView
             android:id="@+id/nVisit"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:gravity="center"
             android:text="@string/nameLocal"
             android:textColor="@color/colorWhite"
@@ -73,7 +71,6 @@
             android:id="@+id/fecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:gravity="center"
             android:text="@string/fecha"
             android:textColor="@color/colorWhite"
