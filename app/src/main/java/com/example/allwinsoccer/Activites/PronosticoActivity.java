@@ -37,7 +37,6 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
     private RecyclerView rv;
     private List<Pronostico> pronosticos;
     private AdapterRecyclerPronostico adapterRecyclerPronostico;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TextView tv_puntos;
     ProgressDialog   progressDialog, progressDialog2;
 
@@ -59,7 +58,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
                     goPosicion();
                     return true;
                 case R.id.navigation_update:
-                    goUpdate();
+                    goGrupos();
                     return true;
             }
             return false;
@@ -90,6 +89,8 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
         pronosticos = new ArrayList<>();
         adapterRecyclerPronostico = new AdapterRecyclerPronostico(pronosticos, this);
         rv.setAdapter(adapterRecyclerPronostico);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Pronosticos").whereEqualTo("idUsuario",getIntent().getStringExtra("idUser")).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -241,17 +242,17 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
         startActivity(i);
     }
 
-    private void goUpdate() {
-        Intent i = new Intent(PronosticoActivity.this, UpdateActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
-        startActivity(i);
-    }
-
     @Override
     public void onNoteClick(int position) {
         Pronostico p = pronosticos.get(position);
         buscarPartido(p.getIdPartido());
+    }
+
+    private void goGrupos() {
+        Intent i = new Intent(PronosticoActivity.this, GruposActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
+        startActivity(i);
     }
 
 }

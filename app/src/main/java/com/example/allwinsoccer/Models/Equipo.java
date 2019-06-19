@@ -2,20 +2,8 @@ package com.example.allwinsoccer.Models;
 
 public class Equipo {
 
-    private String nombre, grupo;
-    private  int puntos, gFavor, gContra, pG, pE, pP;
-
-    public int getpG() { return pG; }
-
-    public void setpG(int pG) { this.pG = pG; }
-
-    public int getpE() { return pE; }
-
-    public void setpE(int pE) { this.pE = pE; }
-
-    public int getpP() { return pP; }
-
-    public void setpP(int pP) { this.pP = pP; }
+    private String nombre;
+    private  int puntos, gF, gC, pG, pE, pP, grupo;
 
     public String getNombre() {
         return nombre;
@@ -25,36 +13,59 @@ public class Equipo {
         this.nombre = nombre;
     }
 
-    public String getGrupo() {
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public int getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(String grupo) {
+    public void setGrupo(int grupo) {
         this.grupo = grupo;
-    }
-
-    public int getPuntos() {
-        return puntos;
     }
 
     public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
 
-    public int getgFavor() {
-        return gFavor;
+    public int getgF() {
+        return gF;
     }
 
-    public void setgFavor(int gFavor) {
-        this.gFavor = gFavor;
+    public void setgF(int gF) {
+        this.gF = gF;
     }
 
-    public int getgContra() {
-        return gContra;
+    public int getgC() {
+        return gC;
     }
 
-    public void setgContra(int gContra) {
-        this.gContra = gContra;
+    public void setgC(int gC) {
+        this.gC = gC;
     }
 
+    public int getpG() {
+        return pG;
+    }
+
+    public void setpG(int pG) {
+        this.pG = pG;
+    }
+
+    public int getpE() {
+        return pE;
+    }
+
+    public void setpE(int pE) {
+        this.pE = pE;
+    }
+
+    public int getpP() {
+        return pP;
+    }
+
+    public void setpP(int pP) {
+        this.pP = pP;
+    }
 }

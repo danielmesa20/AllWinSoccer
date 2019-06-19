@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.allwinsoccer.R;
@@ -26,12 +27,15 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
     private GoogleApiClient googleApiClient;
     private String idUsuario;
     private Uri urlUsuario;
+    private ImageButton imgb;
+    private BottomNavigationView navView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    goGrupos();
                     return true;
                 case R.id.navigation_dashboard:
                     goApostarActivity();
@@ -43,7 +47,7 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
                     goPosicion();
                     return true;
                 case R.id.navigation_update:
-                    goUpdate();
+                   goGrupos();
                     return true;
             }
             return false;
@@ -54,8 +58,11 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        imgb = findViewById(R.id.imageButton);
+        navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navView.setVisibility(View.INVISIBLE);
+        imgb.setVisibility(View.INVISIBLE);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
     }
@@ -79,6 +86,8 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
 
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
+            navView.setVisibility(View.VISIBLE);
+            imgb.setVisibility(View.VISIBLE);
             GoogleSignInAccount account = result.getSignInAccount();
             if (account != null) {
                 idUsuario = account.getId();
@@ -131,7 +140,7 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
         startActivity(i);
     }
 
-    private void goUpdate() {
+    public void goUpdate(View view) {
         Intent i = new Intent(PrincipalActivity.this, UpdateActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtra("idUser", getIntent().getStringExtra("idUser"));
@@ -141,6 +150,13 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
     private void goLogin() {
         Intent i = new Intent(this, LoginActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+    }
+
+    private void goGrupos() {
+        Intent i = new Intent(PrincipalActivity.this, GruposActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 }

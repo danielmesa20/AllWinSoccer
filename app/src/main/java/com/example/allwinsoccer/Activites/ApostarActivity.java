@@ -66,7 +66,7 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                     goPosicion();
                     return true;
                 case R.id.navigation_update:
-                    goUpdate();
+                    goGrupos();
                     return true;
             }
             return false;
@@ -149,6 +149,8 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     private void actualizar(String name_local, String name_visit, String idP) {
         n_local.setText(name_local);
         n_visit.setText(name_visit);
+        g_local.setText("");
+        g_visit.setText("");
         idPartido = idP;
         n_local.setVisibility(View.VISIBLE);
         n_visit.setVisibility(View.VISIBLE);
@@ -235,7 +237,7 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     private void goPrincipalActivity() {
         Intent i = new Intent(ApostarActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 
@@ -249,14 +251,14 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     private void goPosicion() {
         Intent i = new Intent(ApostarActivity.this, PosicionActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 
-    private void goUpdate() {
-        Intent i = new Intent(ApostarActivity.this, UpdateActivity.class);
+    private void goGrupos() {
+        Intent i = new Intent(ApostarActivity.this, GruposActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 

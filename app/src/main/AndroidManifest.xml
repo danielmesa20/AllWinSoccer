@@ -13,8 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
+            android:name=".Activites.GruposActivity"
+            android:label="@string/title_activity_grupos"></activity>
+        <activity
             android:name=".Activites.UpdateActivity"
-            android:label="@string/title_activity_update"></activity>
+            android:label="@string/title_activity_update" />
         <activity
             android:name=".Activites.PosicionActivity"
             android:label="@string/title_activity_posicion"

@@ -49,7 +49,7 @@ public class PosicionActivity extends AppCompatActivity{
                 case R.id.navigation_position:
                     return true;
                 case R.id.navigation_update:
-                    goUpdate();
+                   goGrupos();
                     return true;
             }
             return false;
@@ -78,6 +78,7 @@ public class PosicionActivity extends AppCompatActivity{
         usuarios = new ArrayList<>();
         adapterRecyclerPosicion = new AdapterRecyclerPosicion(usuarios, this, getIntent().getStringExtra("idUser"));
         rv.setAdapter(adapterRecyclerPosicion);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Usuarios").orderBy("puntosUser", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -120,10 +121,10 @@ public class PosicionActivity extends AppCompatActivity{
         startActivity(i);
     }
 
-    private void goUpdate() {
-        Intent i = new Intent(PosicionActivity.this, UpdateActivity.class);
+    private void goGrupos() {
+        Intent i = new Intent(PosicionActivity.this, GruposActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 

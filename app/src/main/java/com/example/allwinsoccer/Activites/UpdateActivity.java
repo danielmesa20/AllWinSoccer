@@ -62,6 +62,7 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
                     goPosicion();
                     return true;
                 case R.id.navigation_update:
+                    goGrupos();
                     return true;
             }
             return false;
@@ -255,6 +256,13 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
         Intent i = new Intent(UpdateActivity.this, ApostarActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        startActivity(i);
+    }
+
+    private void goGrupos() {
+        Intent i = new Intent(UpdateActivity.this, GruposActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 

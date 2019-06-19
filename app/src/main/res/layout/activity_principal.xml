@@ -41,5 +41,12 @@
         android:tint="@color/colorWhite"
         app:srcCompat="@drawable/salir_48" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="goUpdate"
+        app:srcCompat="@drawable/update" />
+
 
 </RelativeLayout>

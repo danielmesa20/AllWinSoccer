@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">AllWinSoccer</string>
-    <string name="title_activity_principal">PrincipalActivity</string>
+    <string name="title_activity_principal">AllWinSoccer</string>
+    <string name="title_activity_apostar">ApostarActivity</string>
+    <string name="title_activity_tablas">TablasActivity</string>
+    <string name="title_activity_grupos">GruposActivity</string>
 
     //ApostarActivity
     <string name="b_apostar">Ingresar</string>
@@ -17,8 +20,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Apostar</string>
     <string name="title_notifications">Pronósticos</string>
-    <string name="title_activity_apostar">ApostarActivity</string>
     <string name="title_position">Posición</string>
+    <string name="title_grupos">Grupos</string>
+
 
     //PronosticoActivity
     <string name="titulo">PRÓNOSTICOS</string>
@@ -43,5 +47,22 @@
 
     //RecyclerPronostico
     <string name="puntosObtenidos"> Puntos Obtenidos: %1$s</string>
+
+
+    //Recycler Grupos
+    <string name="tablaGrupos">Tabla de Posiciones</string>
+    <string name="grupoA">GRUPO A</string>
+    <string name="grupoB">GRUPO B</string>
+    <string name="grupoC">GRUPO C</string>
+    <string name="nombreEquipo">Equipo</string>
+    <string name="pJ">PJ</string>
+    <string name="pG">PG</string>
+    <string name="pE">PE</string>
+    <string name="pP">PP</string>
+    <string name="gF">GF</string>
+    <string name="gC">GC</string>
+    <string name="df">DF</string>
+    <string name="p">Puntos</string>
+    <string name="p99">99</string>
 
 </resources>

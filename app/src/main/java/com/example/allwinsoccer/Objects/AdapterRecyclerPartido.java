@@ -13,7 +13,7 @@ import com.example.allwinsoccer.R;
 
 import java.util.List;
 
-public class AdapterRecyclerPartido extends RecyclerView.Adapter<AdapterRecyclerPartido.PartidosViewHolder>{
+public class AdapterRecyclerPartido extends RecyclerView.Adapter<AdapterRecyclerPartido.PartidosViewHolder> {
 
     private List<Partido> partidos;
     private OnNoteListener mOnNoteListener;
@@ -35,9 +35,9 @@ public class AdapterRecyclerPartido extends RecyclerView.Adapter<AdapterRecycler
         Partido p = partidos.get(i);
         partidosViewHolder.tv_name_local.setText(p.getNlocal());
         partidosViewHolder.tv_name_visit.setText(p.getNvisit());
-        partidosViewHolder.fecha.setText("Fecha: "+p.getFecha());
-        actualizarIMG(p.getNlocal(),partidosViewHolder.iv_bandera_local);
-        actualizarIMG(p.getNvisit(),partidosViewHolder.iv_bandera_visit);
+        partidosViewHolder.fecha.setText("Fecha: " + p.getFecha());
+        actualizarIMG(p.getNlocal(), partidosViewHolder.iv_bandera_local);
+        actualizarIMG(p.getNvisit(), partidosViewHolder.iv_bandera_visit);
     }
 
     @Override
@@ -45,9 +45,9 @@ public class AdapterRecyclerPartido extends RecyclerView.Adapter<AdapterRecycler
         return partidos.size();
     }
 
-    public static class PartidosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class PartidosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView tv_name_local,tv_name_visit, fecha;
+        TextView tv_name_local, tv_name_visit, fecha;
         ImageView iv_bandera_local, iv_bandera_visit;
         OnNoteListener onNoteListener;
 
@@ -69,7 +69,7 @@ public class AdapterRecyclerPartido extends RecyclerView.Adapter<AdapterRecycler
     }
 
 
-    public interface OnNoteListener{
+    public interface OnNoteListener {
         void onNoteClick(int position);
     }
 
@@ -116,5 +116,4 @@ public class AdapterRecyclerPartido extends RecyclerView.Adapter<AdapterRecycler
                 break;
         }
     }
-
 }

@@ -45,7 +45,7 @@
             android:layout_height="2dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/azulOscuroCopa" />
+            android:background="@color/colorWhite" />
 
 
         <TextView
