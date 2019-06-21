@@ -1,14 +1,13 @@
 package com.example.allwinsoccer.Activites;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.allwinsoccer.R;
@@ -26,16 +25,13 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
 
     private GoogleApiClient googleApiClient;
     private String idUsuario;
-    private Uri urlUsuario;
-    private ImageButton imgb;
-    private BottomNavigationView navView;
+    private RelativeLayout rl;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    goGrupos();
                     return true;
                 case R.id.navigation_dashboard:
                     goApostarActivity();
@@ -47,7 +43,7 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
                     goPosicion();
                     return true;
                 case R.id.navigation_update:
-                   goGrupos();
+                    goGrupos();
                     return true;
             }
             return false;
@@ -58,11 +54,10 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
-        imgb = findViewById(R.id.imageButton);
-        navView = findViewById(R.id.nav_view);
+        rl = findViewById(R.id.container);
+        rl.setVisibility(View.INVISIBLE);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navView.setVisibility(View.INVISIBLE);
-        imgb.setVisibility(View.INVISIBLE);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
     }
@@ -86,12 +81,10 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
 
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
-            navView.setVisibility(View.VISIBLE);
-            imgb.setVisibility(View.VISIBLE);
             GoogleSignInAccount account = result.getSignInAccount();
             if (account != null) {
+                rl.setVisibility(View.VISIBLE);
                 idUsuario = account.getId();
-                urlUsuario = account.getPhotoUrl();
             } else {
                 Toast.makeText(this, "Error handleSignInResult", Toast.LENGTH_SHORT).show();
             }
@@ -136,7 +129,6 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
         Intent i = new Intent(PrincipalActivity.this, PosicionActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtra("idUser", idUsuario);
-        i.putExtra("urlUser", urlUsuario);
         startActivity(i);
     }
 
@@ -144,6 +136,11 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
         Intent i = new Intent(PrincipalActivity.this, UpdateActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtra("idUser", getIntent().getStringExtra("idUser"));
+        startActivity(i);
+    }
+
+    public void goJugadores(View view){
+        Intent i = new Intent(PrincipalActivity.this, JugadorActivity.class);
         startActivity(i);
     }
 

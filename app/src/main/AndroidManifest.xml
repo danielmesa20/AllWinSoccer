@@ -12,12 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".Activites.JugadorActivity"></activity>
         <activity
             android:name=".Activites.GruposActivity"
-            android:label="@string/title_activity_grupos"></activity>
+            android:label="@string/title_activity_grupos"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".Activites.UpdateActivity"
-            android:label="@string/title_activity_update" />
+            android:label="@string/title_activity_update"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".Activites.PosicionActivity"
             android:label="@string/title_activity_posicion"
@@ -37,7 +43,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

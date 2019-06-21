@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.allwinsoccer.Models.Usuario;
@@ -28,8 +29,7 @@ import java.util.Objects;
 public class PosicionActivity extends AppCompatActivity{
 
     private RecyclerView rv;
-    private List<Usuario> usuarios;
-    private AdapterRecyclerPosicion adapterRecyclerPosicion;
+    private BottomNavigationView navView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -60,9 +60,9 @@ public class PosicionActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posicion);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        navView.setVisibility(View.INVISIBLE);
         rv = findViewById(R.id.rv_usuarios);
         rv.setLayoutManager(new LinearLayoutManager(this));
         listarUsuarios();
@@ -75,8 +75,10 @@ public class PosicionActivity extends AppCompatActivity{
         progressDialog.setCancelable(false);
         progressDialog.show();
 
+        final List<Usuario> usuarios;
+        final AdapterRecyclerPosicion adapterRecyclerPosicion;
         usuarios = new ArrayList<>();
-        adapterRecyclerPosicion = new AdapterRecyclerPosicion(usuarios, this, getIntent().getStringExtra("idUser"));
+        adapterRecyclerPosicion = new AdapterRecyclerPosicion(usuarios, getIntent().getStringExtra("idUser"));
         rv.setAdapter(adapterRecyclerPosicion);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -94,6 +96,7 @@ public class PosicionActivity extends AppCompatActivity{
                     Toast.makeText(PosicionActivity.this, "Error getting documents: "+task.getException(), Toast.LENGTH_SHORT).show();
                 }
 
+                navView.setVisibility(View.VISIBLE);
                 progressDialog.dismiss();
             }
         });

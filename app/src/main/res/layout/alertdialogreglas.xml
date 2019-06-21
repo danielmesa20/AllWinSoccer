@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/colorYellow">
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="Reglas de la Quiniela"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="La Copa América 2019 es la XLVI edición de la principal
+                competencia futbolística entre selecciones nacionales de América del Sur
+                y la más antigua del mundo. El torneo es organizado por la Conmebol,
+                ente administrador del fútbol en Sudamérica y órgano del fútbol afiliado
+                a la FIFA, y se lleva a cabo por quinta vez en Brasil (la última fue en 1989)
+                entre el 14 de junio y el 7 de julio de dicho año.
+
+                Para esta edición, el campeón vigente del torneo es la selección chilena,
+                ganadora de la Copa América 2015 al vencer en la final a la selección argentina
+                por 4-1 en definición por penales.1​2​ El equipo campeón de este torneo
+                representará a la Conmebol en la Copa FIFA Confederaciones 2021, si esta
+                llega a realizarse.3​
+
+                  Para esta edición, el campeón vigente del torneo es la selección chilena,
+                ganadora de la Copa América 2015 al vencer en la final a la selección argentina
+                por 4-1 en definición por penales.1​2​ El equipo campeón de este torneo
+                representará a la Conmebol en la Copa FIFA Confederaciones 2021, si esta
+                llega a realizarse.3​
+
+                  Para esta edición, el campeón vigente del torneo es la selección chilena,
+                ganadora de la Copa América 2015 al vencer en la final a la selección argentina
+                por 4-1 en definición por penales.1​2​ El equipo campeón de este torneo
+                representará a la Conmebol en la Copa FIFA Confederaciones 2021, si esta
+                llega a realizarse.3​"
+
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/salir_b"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/salir" />
+
+    </RelativeLayout>
+
+</LinearLayout>

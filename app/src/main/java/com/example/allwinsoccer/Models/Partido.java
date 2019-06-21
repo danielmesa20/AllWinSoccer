@@ -1,7 +1,5 @@
 package com.example.allwinsoccer.Models;
 
-import java.sql.Timestamp;
-
 public class Partido {
 
     private String idPartido, nlocal, nvisit, ubicacion, fase, grupo, fecha;

@@ -2,8 +2,16 @@ package com.example.allwinsoccer.Models;
 
 public class Equipo {
 
-    private String nombre;
+    private String nombre, idEquipo;
     private  int puntos, gF, gC, pG, pE, pP, grupo;
+
+    public String getIdEquipo() {
+        return idEquipo;
+    }
+
+    public void setIdEquipo(String idEquipo) {
+        this.idEquipo = idEquipo;
+    }
 
     public String getNombre() {
         return nombre;

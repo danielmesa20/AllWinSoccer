@@ -10,10 +10,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +34,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -45,8 +53,10 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     private ImageView b_local, b_visit;
     private TextView n_local, n_visit;
     private EditText g_local, g_visit;
+    private ImageButton imgb;
     private String idPartido;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private BottomNavigationView navView;
+    private LinearLayout ly1, ly2, ly3;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -77,8 +87,9 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apostar);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navView.setVisibility(View.INVISIBLE);
 
         rv = findViewById(R.id.rv_partidos);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -88,13 +99,14 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         n_visit = findViewById(R.id.name_visit);
         g_local = findViewById(R.id.goles_local);
         g_visit = findViewById(R.id.goles_visit);
+        imgb = findViewById(R.id.b_apostar);
+        ly1 = findViewById(R.id.linearLayoutLocal);
+        ly2 = findViewById(R.id.linearLayoutVisit);
+        ly3 = findViewById(R.id.linearLayoutBotton);
 
-        b_local.setVisibility(View.INVISIBLE);
-        b_visit.setVisibility(View.INVISIBLE);
-        n_local.setVisibility(View.INVISIBLE);
-        n_visit.setVisibility(View.INVISIBLE);
-        g_local.setVisibility(View.INVISIBLE);
-        g_visit.setVisibility(View.INVISIBLE);
+        ly1.setVisibility(View.GONE);
+        ly2.setVisibility(View.GONE);
+        ly3.setVisibility(View.GONE);
 
         listarPartidos();
 
@@ -110,6 +122,7 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         partidos = new ArrayList<>();
         adapterRecyclerPartido = new AdapterRecyclerPartido(partidos, this);
         rv.setAdapter(adapterRecyclerPartido);
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("Partidos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -133,6 +146,22 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                                     }
                                     if (queryDocumentSnapshots.isEmpty() || !apostado) {
                                         partidos.add(partido);
+                                        Collections.sort(partidos, new Comparator<Partido>() {
+                                            @Override
+                                            public int compare(Partido o1, Partido o2) {
+                                                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
+                                                Date f1 = null, f2 = null;
+                                                try {
+                                                    f1 = dateFormat.parse(o1.getFecha());
+                                                    f2 = dateFormat.parse(o2.getFecha());
+                                                } catch (ParseException ex) {
+                                                    Toast.makeText(ApostarActivity.this, "Error parse", Toast.LENGTH_SHORT).show();
+                                                }
+
+                                                assert f1 != null;
+                                                return f1.compareTo(f2);
+                                            }
+                                        });
                                         adapterRecyclerPartido.notifyDataSetChanged();
                                     }
                                 }
@@ -140,6 +169,8 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                         }
                     }
                 }
+                navView.setVisibility(View.VISIBLE);
+                imgb.setVisibility(View.VISIBLE);
                 progressDialog.dismiss();
             }
         });
@@ -152,10 +183,9 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         g_local.setText("");
         g_visit.setText("");
         idPartido = idP;
-        n_local.setVisibility(View.VISIBLE);
-        n_visit.setVisibility(View.VISIBLE);
-        g_local.setVisibility(View.VISIBLE);
-        g_visit.setVisibility(View.VISIBLE);
+        ly1.setVisibility(View.VISIBLE);
+        ly2.setVisibility(View.VISIBLE);
+        ly3.setVisibility(View.VISIBLE);
     }
 
     private String fActual() {
@@ -180,13 +210,10 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         n_visit.setText(R.string.equipoV);
         g_local.setText("");
         g_visit.setText("");
-        b_local.setVisibility(View.INVISIBLE);
-        b_visit.setVisibility(View.INVISIBLE);
-        n_visit.setVisibility(View.INVISIBLE);
-        n_local.setVisibility(View.INVISIBLE);
-        g_visit.setVisibility(View.INVISIBLE);
-        g_local.setVisibility(View.INVISIBLE);
         idPartido = null;
+        ly1.setVisibility(View.GONE);
+        ly2.setVisibility(View.GONE);
+        ly3.setVisibility(View.GONE);
     }
 
     public void registrarPronostico(View view) {
@@ -206,6 +233,7 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
                     Pronostico p = new Pronostico();
                     p.setIdPronostico(UUID.randomUUID().toString());
                     p.setIdUsuario(getIntent().getStringExtra("idUser"));
@@ -223,6 +251,13 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                 }
             });
 
+            builder.setNeutralButton("Reglas", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mostrarReglas().show();
+                }
+            });
+
             builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -232,6 +267,26 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
             AlertDialog dialog = builder.create();
             dialog.show();
         }
+    }
+
+    private AlertDialog mostrarReglas() {
+
+        final AlertDialog alertDialogReglas;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final ViewGroup nullParent = null;
+        LayoutInflater inflater = getLayoutInflater();
+        View v = inflater.inflate(R.layout.alertdialogreglas, nullParent);
+        Button bsalir = v.findViewById(R.id.salir_b);
+        builder.setView(v);
+        alertDialogReglas = builder.create();
+        bsalir.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialogReglas.dismiss();
+                    }
+                });
+
+        return alertDialogReglas;
     }
 
     private void goPrincipalActivity() {
@@ -313,6 +368,5 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         actualizarIMG(p.getNlocal(), b_local);
         actualizarIMG(p.getNvisit(), b_visit);
     }
-
 
 }

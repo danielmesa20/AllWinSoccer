@@ -2,8 +2,7 @@ package com.example.allwinsoccer.Models;
 
 public class Jugador {
 
-    private String idJugador, nombre, pais;
-    private int posicion;          // 0: Portero, 1: Cualquier Otra posición
+    private String idJugador, nombre, pais, posicion;
 
     public String getIdJugador() {
         return idJugador;
@@ -29,11 +28,11 @@ public class Jugador {
         this.pais = pais;
     }
 
-    public int getPosicion() {
+    public String getPosicion() {
         return posicion;
     }
 
-    public void setPosicion(int posicion) {
+    public void setPosicion(String posicion) {
         this.posicion = posicion;
     }
 

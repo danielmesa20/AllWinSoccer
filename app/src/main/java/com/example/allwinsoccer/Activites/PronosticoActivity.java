@@ -28,8 +28,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class PronosticoActivity extends AppCompatActivity implements AdapterRecyclerPronostico.OnNoteListener {
@@ -37,8 +43,9 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
     private RecyclerView rv;
     private List<Pronostico> pronosticos;
     private AdapterRecyclerPronostico adapterRecyclerPronostico;
-    private TextView tv_puntos;
-    ProgressDialog   progressDialog, progressDialog2;
+    private TextView tv_puntos, titulo;
+    private ProgressDialog   progressDialog, progressDialog2;
+    private BottomNavigationView navView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -69,12 +76,15 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pronostico);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navView.setVisibility(View.INVISIBLE);
         rv = findViewById(R.id.rv_partidos);
         rv.setLayoutManager(new LinearLayoutManager(this));
         tv_puntos = findViewById(R.id.puntos);
         tv_puntos.setVisibility(View.INVISIBLE);
+        titulo = findViewById(R.id.titulo);
+        titulo.setVisibility(View.INVISIBLE);
         progressDialog = new ProgressDialog(PronosticoActivity.this);
         progressDialog2 = new ProgressDialog(PronosticoActivity.this);
         listarPronosticos();
@@ -109,8 +119,27 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
                     else
                         tv_puntos.setText(R.string.noPuntaje);
 
-                    tv_puntos.setVisibility(View.VISIBLE);
+                    Collections.sort(pronosticos, new Comparator<Pronostico>() {
+                        @Override
+                        public int compare(Pronostico o1, Pronostico o2) {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
+                            Date f1 = null, f2 = null;
+                            try {
+                                f1 = dateFormat.parse(o1.getFecha());
+                                f2 = dateFormat.parse(o2.getFecha());
+                            } catch (ParseException ex) {
+                                Toast.makeText(PronosticoActivity.this, "Error parse", Toast.LENGTH_SHORT).show();
+                            }
+
+                            assert f1 != null;
+                            return f1.compareTo(f2);
+                        }
+                    });
+
                     adapterRecyclerPronostico.notifyDataSetChanged();
+                    tv_puntos.setVisibility(View.VISIBLE);
+                    titulo.setVisibility(View.VISIBLE);
+                    navView.setVisibility(View.VISIBLE);
                 } else
                     Toast.makeText(PronosticoActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
 

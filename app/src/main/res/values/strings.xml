@@ -56,13 +56,21 @@
     <string name="grupoC">GRUPO C</string>
     <string name="nombreEquipo">Equipo</string>
     <string name="pJ">PJ</string>
-    <string name="pG">PG</string>
-    <string name="pE">PE</string>
-    <string name="pP">PP</string>
+    <string name="pG">G</string>
+    <string name="pE">E</string>
+    <string name="pP">P</string>
     <string name="gF">GF</string>
     <string name="gC">GC</string>
-    <string name="df">DF</string>
+    <string name="df">DG</string>
     <string name="p">Puntos</string>
     <string name="p99">99</string>
+
+    //Recycler Jugadores
+    <string name="nombre_jugador">Nombre Jugador</string>
+    <string name="posicion_jugador">Posición Jugador</string>
+
+    //Jugadores
+    <string name="porteros">PORTERO DEL TORNEO</string>
+    <string name="jugadores">JUGADOR DEL TORNEO</string>
 
 </resources>

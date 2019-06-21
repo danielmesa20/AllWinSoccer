@@ -22,10 +22,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener  {
 
@@ -60,15 +56,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (result.isSuccess()){
             GoogleSignInAccount account = result.getSignInAccount();
             if(account != null){
-                buscarAUsuarios(account.getId(),account.getEmail(),String.valueOf(account.getPhotoUrl()));
-                goPrincipalActivity();
+                buscarAUsuarios(account.getId(),account.getEmail());
+                goPrincipalActivity(account.getId());
             }
         }else{
             Toast.makeText(this, "NO se pudo ingresar "+result.getStatus().toString(), Toast.LENGTH_LONG).show();
         }
     }
 
-    private void buscarAUsuarios(final String id, final String email, final String url){
+    private void buscarAUsuarios(final String id, final String email){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("Usuarios").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -77,9 +73,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document != null && !document.exists()){
-                        agregarUsuario(email,id,url);
-                    }else{
-                        verificarUrl(id,url);
+                        agregarUsuario(email,id);
                     }
                 } else {
                     Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
@@ -88,33 +82,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
     }
 
-    private void verificarUrl(final String id, final String url){
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Usuarios").whereEqualTo("idUsuario", id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                        Usuario u = document.toObject(Usuario.class);
-                        if (u.getUrl() == null || u.getUrl().isEmpty()) {
-                            db.collection("Usuarios").document(u.getIdUsuario()).update("url", url);
-                        }
-                    }
-                }else{
-                    Toast.makeText(LoginActivity.this, "Error getting documents: "+task.getException(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void agregarUsuario(String email, String idUsuario, String url){
+    private void agregarUsuario(String email, String idUsuario){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Usuario u = new Usuario();
         u.setEmail(email);
         u.setIdUsuario(idUsuario);
         u.setPuntosUser(0);
         u.setNombre(generarNombre(email));
-        u.setUrl(url);
         db.collection("Usuarios").document(idUsuario).set(u);
     }
 
@@ -136,9 +110,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         return name;
     }
 
-    private void goPrincipalActivity() {
+    private void goPrincipalActivity(String idUsuario) {
         Intent i = new Intent(this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("idUser", idUsuario);
         startActivity(i);
     }
 

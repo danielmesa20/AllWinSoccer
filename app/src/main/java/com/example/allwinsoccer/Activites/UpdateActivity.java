@@ -14,9 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.allwinsoccer.Models.Equipo;
 import com.example.allwinsoccer.Models.Partido;
 import com.example.allwinsoccer.Models.Pronostico;
 import com.example.allwinsoccer.Models.Usuario;
@@ -28,8 +30,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class UpdateActivity extends AppCompatActivity implements AdapterRecyclerPartido.OnNoteListener {
@@ -40,7 +48,8 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
     private ImageView b_local, b_visit;
     private TextView n_local, n_visit;
     private EditText g_local, g_visit;
-    private String idPartido;
+    private String idPartido, nombreL, nombreV;
+    private LinearLayout ly1, ly2, ly3;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -84,13 +93,13 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
         n_visit = findViewById(R.id.name_visit);
         g_local = findViewById(R.id.goles_local);
         g_visit = findViewById(R.id.goles_visit);
+        ly1 = findViewById(R.id.linearLayoutLocal);
+        ly2 = findViewById(R.id.linearLayoutVisit);
+        ly3 = findViewById(R.id.linearLayoutBotton);
 
-        b_local.setVisibility(View.INVISIBLE);
-        b_visit.setVisibility(View.INVISIBLE);
-        n_local.setVisibility(View.INVISIBLE);
-        n_visit.setVisibility(View.INVISIBLE);
-        g_local.setVisibility(View.INVISIBLE);
-        g_visit.setVisibility(View.INVISIBLE);
+        ly1.setVisibility(View.GONE);
+        ly2.setVisibility(View.GONE);
+        ly3.setVisibility(View.GONE);
 
         listarPartidos();
     }
@@ -115,6 +124,22 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
                         final Partido partido = d.toObject(Partido.class);
                         partidos.add(partido);
                     }
+                    Collections.sort(partidos, new Comparator<Partido>() {
+                        @Override
+                        public int compare(Partido o1, Partido o2) {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
+                            Date f1 = null, f2 = null;
+                            try {
+                                f1 = dateFormat.parse(o1.getFecha());
+                                f2 = dateFormat.parse(o2.getFecha());
+                            } catch (ParseException ex) {
+                                Toast.makeText(UpdateActivity.this, "Error parse", Toast.LENGTH_SHORT).show();
+                            }
+
+                            assert f1 != null;
+                            return f1.compareTo(f2);
+                        }
+                    });
                     adapterRecyclerPartido.notifyDataSetChanged();
                 }
 
@@ -127,29 +152,28 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
     private void actualizar(String name_local, String name_visit, String idP) {
         n_local.setText(name_local);
         n_visit.setText(name_visit);
+        nombreL = name_local;
+        nombreV = name_visit;
         idPartido = idP;
-        n_local.setVisibility(View.VISIBLE);
-        n_visit.setVisibility(View.VISIBLE);
-        g_local.setVisibility(View.VISIBLE);
-        g_visit.setVisibility(View.VISIBLE);
+        ly1.setVisibility(View.VISIBLE);
+        ly2.setVisibility(View.VISIBLE);
+        ly3.setVisibility(View.VISIBLE);
     }
 
     private void reiniciar() {
         n_local.setText(R.string.equipoL);
         n_visit.setText(R.string.equipoV);
-        b_local.setVisibility(View.INVISIBLE);
-        b_visit.setVisibility(View.INVISIBLE);
-        g_local.setVisibility(View.INVISIBLE);
-        g_visit.setVisibility(View.INVISIBLE);
-        n_visit.setVisibility(View.INVISIBLE);
-        n_local.setVisibility(View.INVISIBLE);
         idPartido = null;
+        nombreV = null;
+        nombreL = null;
         g_local.setText("");
         g_visit.setText("");
+        ly1.setVisibility(View.GONE);
+        ly2.setVisibility(View.GONE);
+        ly3.setVisibility(View.GONE);
     }
 
     public void actualizarResultadoPartido(View view) {
-
         final String glocalS = g_local.getText().toString(), gvisitS = g_visit.getText().toString();
         if (idPartido == null) {
             Toast.makeText(this, "Debe elegir un partido", Toast.LENGTH_SHORT).show();
@@ -165,10 +189,13 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    db.collection("Partidos").document(idPartido).update("glocal",Integer.parseInt(glocalS),"gvisit",Integer.parseInt(gvisitS));
-                    Toast.makeText(UpdateActivity.this, "Pronóstico registrado Correctamente", Toast.LENGTH_SHORT).show();
-                    actualizarPuntosPronostico(idPartido, glocalS, gvisitS);
+                    //db.collection("Partidos").document(idPartido).update("glocal", Integer.parseInt(glocalS),"gvisit", Integer.parseInt(gvisitS));
+                    actualizarTablas(nombreL, Integer.parseInt(glocalS), Integer.parseInt(gvisitS));
+                    actualizarTablas(nombreV, Integer.parseInt(gvisitS), Integer.parseInt(glocalS));
+                    //actualizarPuntosPronostico(idPartido, glocalS, gvisitS);
                     reiniciar();
+                    Toast.makeText(UpdateActivity.this, "Pronóstico registrado Correctamente", Toast.LENGTH_SHORT).show();
+
                 }
             });
 
@@ -183,7 +210,7 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
         }
     }
 
-    public void actualizarPuntosPronostico(final String id, final String golesl, final String golesv){
+    public void actualizarPuntosPronostico(final String id, final String golesl, final String golesv) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Pronosticos").whereEqualTo("idPartido", id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -193,28 +220,28 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
                         Pronostico p = document.toObject(Pronostico.class);
                         int puntos = 0;
 
-                        if( ((Integer.parseInt(golesl) > Integer.parseInt(golesv)) && ( p.getGlocal() > p.getGvisit())) || ((Integer.parseInt(golesl) < Integer.parseInt(golesv)) && (p.getGlocal() < p.getGvisit())) || ((Integer.parseInt(golesl) == Integer.parseInt(golesv)) && (p.getGlocal() == p.getGvisit())) )
+                        if (((Integer.parseInt(golesl) > Integer.parseInt(golesv)) && (p.getGlocal() > p.getGvisit())) || ((Integer.parseInt(golesl) < Integer.parseInt(golesv)) && (p.getGlocal() < p.getGvisit())) || ((Integer.parseInt(golesl) == Integer.parseInt(golesv)) && (p.getGlocal() == p.getGvisit())))
                             puntos = 5;
 
-                        if(Integer.parseInt(golesl) == p.getGlocal())
+                        if (Integer.parseInt(golesl) == p.getGlocal())
                             puntos = puntos + 10;
 
-                        if(Integer.parseInt(golesv) == p.getGvisit())
+                        if (Integer.parseInt(golesv) == p.getGvisit())
                             puntos = puntos + 10;
 
                         db.collection("Pronosticos").document(p.getIdPronostico()).update("puntos", puntos);
-                        if(puntos > 0)
+                        if (puntos > 0)
                             actualizarPuntajeUsuario(p.getIdUsuario(), puntos);
                     }
-                }else{
-                    Toast.makeText(UpdateActivity.this, "Error getting documents: "+task.getException(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(UpdateActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
     }
 
-    private void actualizarPuntajeUsuario(String idUser, final int puntos){
+    private void actualizarPuntajeUsuario(String idUser, final int puntos) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Usuarios").whereEqualTo("idUsuario", idUser).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -222,19 +249,46 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                         Usuario u = document.toObject(Usuario.class);
-                        db.collection("Usuarios").document(u.getIdUsuario()).update("puntosUser",u.getPuntosUser() + puntos);
+                        db.collection("Usuarios").document(u.getIdUsuario()).update("puntosUser", u.getPuntosUser() + puntos);
                     }
-                }else{
-                    Toast.makeText(UpdateActivity.this, "Error getting documents: "+task.getException(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(UpdateActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    private void actualizarTablas(final String nombre, final int gl, final int gv) {
+        db.collection("Equipos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    for (QueryDocumentSnapshot d : task.getResult()) {
+                        Equipo e = d.toObject(Equipo.class);
+                        if(e.getNombre().equals(nombre)){
+                            Toast.makeText(UpdateActivity.this, "n "+nombre, Toast.LENGTH_SHORT).show();
+                            if(gl > gv){
+                                db.collection("Equipos").document(e.getIdEquipo()).update("pG",e.getpG() + 1,
+                                        "gF", e.getgF() + gl, "gC", e.getgC() + gv, "puntos",e.getPuntos() + 3 );
+                            }else if(gl == gv){
+                                db.collection("Equipos").document(e.getIdEquipo()).update("pE",e.getpE() + 1,
+                                        "gF", e.getgF() + gl, "gC", e.getgC() + gv, "puntos",e.getPuntos() + 1 );
+                            }else{
+                                db.collection("Equipos").document(e.getIdEquipo()).update("pP",e.getpP() + 1,
+                                        "gF", e.getgF() + gl, "gC", e.getgC() + gv);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
     private void goPrincipalActivity() {
         Intent i = new Intent(UpdateActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 
@@ -248,14 +302,14 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
     private void goPosicion() {
         Intent i = new Intent(UpdateActivity.this, PosicionActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 
     private void goApostarActivity() {
         Intent i = new Intent(UpdateActivity.this, ApostarActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 
