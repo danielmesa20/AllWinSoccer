@@ -28,51 +28,52 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class JugadorActivity extends AppCompatActivity implements AdapterRecyclerJugador.OnNoteListener {
+public class PorteroActivity extends AppCompatActivity implements AdapterRecyclerJugador.OnNoteListener {
 
     private RecyclerView rv_jugadores;
-    private List<Jugador> jugadores;
+    private List<Jugador> porteros;
     private AdapterRecyclerJugador adapterRecyclerJugador;
-    private String idJugador = null;
+    private String idPortero = null;
     private ConstraintLayout constraintLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_jugador);
+        setContentView(R.layout.activity_portero);
         rv_jugadores = findViewById(R.id.rv_jugadores);
         constraintLayout = findViewById(R.id.jugador_ly);
         constraintLayout.setVisibility(View.INVISIBLE);
         rv_jugadores.setLayoutManager(new LinearLayoutManager(this));
-        mostrarJugadores();
+        mostrarPorteros();
     }
 
-    private void mostrarJugadores() {
+    private void mostrarPorteros() {
 
-        final ProgressDialog progressDialog = new ProgressDialog(JugadorActivity.this);
-        progressDialog.setMessage("Cargando los Jugadores...");
+        final ProgressDialog progressDialog = new ProgressDialog(PorteroActivity.this);
+        progressDialog.setMessage("Cargando los Porteros...");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        jugadores = new ArrayList<>();
-        adapterRecyclerJugador = new AdapterRecyclerJugador(jugadores, this);
+        porteros = new ArrayList<>();
+        adapterRecyclerJugador = new AdapterRecyclerJugador(porteros, this);
         rv_jugadores.setAdapter(adapterRecyclerJugador);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Jugadores").orderBy("pais", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                jugadores.clear();
+                porteros.clear();
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                         Jugador j = document.toObject(Jugador.class);
-                        if (!j.getPosicion().equals("Portero")) {
-                            jugadores.add(j);
+                        if (j.getPosicion().equals("Portero")) {
+                            porteros.add(j);
                         }
                     }
                     adapterRecyclerJugador.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(JugadorActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PorteroActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
                 }
                 constraintLayout.setVisibility(View.VISIBLE);
                 progressDialog.dismiss();
@@ -81,7 +82,7 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
     }
 
     public void premiosTorneo(View view) {
-        if (idJugador == null || idJugador.isEmpty()) {
+        if (idPortero == null || idPortero.isEmpty()) {
             Toast.makeText(this, "Debe elegir el jugador", Toast.LENGTH_SHORT).show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -90,7 +91,7 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
             builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    final String id = idJugador;
+                    final String id = idPortero;
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
                     db.collection("Usuarios").whereEqualTo("idUsuario", getIntent().getStringExtra("idUser")).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -98,14 +99,14 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                     Usuario u = document.toObject(Usuario.class);
-                                    db.collection("Usuarios").document(u.getIdUsuario()).update("idMejorJugador", id);
+                                    db.collection("Usuarios").document(u.getIdUsuario()).update("idMejorPortero", id);
                                 }
                             } else {
-                                Toast.makeText(JugadorActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PorteroActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
-                    Toast.makeText(JugadorActivity.this, "Guardado correctamente ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PorteroActivity.this, "Guardado correctamente ", Toast.LENGTH_SHORT).show();
                     goPrincipal();
                 }
             });
@@ -121,16 +122,15 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
     }
 
     private void goPrincipal() {
-        Intent i = new Intent(JugadorActivity.this, PrincipalActivity.class);
+        Intent i = new Intent(PorteroActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }
 
     @Override
     public void onNoteClick(int position) {
-        Jugador j = jugadores.get(position);
-        idJugador = j.getIdJugador();
+        Jugador j = porteros.get(position);
+        idPortero = j.getIdJugador();
         Toast.makeText(this, "Haz elegido a: " + j.getNombre(), Toast.LENGTH_SHORT).show();
     }
-
 }

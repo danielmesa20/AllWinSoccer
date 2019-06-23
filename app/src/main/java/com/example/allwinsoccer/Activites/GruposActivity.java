@@ -82,7 +82,7 @@ public class GruposActivity extends AppCompatActivity {
     private void mostrarGrupos(){
 
         final ProgressDialog progressDialog = new ProgressDialog(GruposActivity.this);
-        progressDialog.setMessage("Cargando los información...");
+        progressDialog.setMessage("Cargando las Posiciones de los Equipos...");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
@@ -135,7 +135,6 @@ public class GruposActivity extends AppCompatActivity {
     private void goPrincipalActivity() {
         Intent i = new Intent(GruposActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 

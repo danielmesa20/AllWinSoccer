@@ -14,11 +14,12 @@ import java.util.List;
 
 public class AdapterRecyclerJugador extends RecyclerView.Adapter<AdapterRecyclerJugador.JugadoresViewHolder> {
 
-    private List<Jugador> jugadores;
+    private List<Jugador> jugadores, porteros;
     private OnNoteListener mOnNoteListener;
 
     public AdapterRecyclerJugador(List<Jugador> jugadores, OnNoteListener onNoteListener) {
         this.jugadores = jugadores;
+        this.porteros = porteros;
         this.mOnNoteListener = onNoteListener;
     }
 

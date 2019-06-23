@@ -91,7 +91,7 @@
 
         <TextView
             android:id="@+id/gDife"
-            android:layout_width="20dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:text="@string/p99"
             android:textSize="15sp"

@@ -189,10 +189,10 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //db.collection("Partidos").document(idPartido).update("glocal", Integer.parseInt(glocalS),"gvisit", Integer.parseInt(gvisitS));
+                    db.collection("Partidos").document(idPartido).update("glocal", Integer.parseInt(glocalS),"gvisit", Integer.parseInt(gvisitS));
                     actualizarTablas(nombreL, Integer.parseInt(glocalS), Integer.parseInt(gvisitS));
                     actualizarTablas(nombreV, Integer.parseInt(gvisitS), Integer.parseInt(glocalS));
-                    //actualizarPuntosPronostico(idPartido, glocalS, gvisitS);
+                    actualizarPuntosPronostico(idPartido, glocalS, gvisitS);
                     reiniciar();
                     Toast.makeText(UpdateActivity.this, "Pronóstico registrado Correctamente", Toast.LENGTH_SHORT).show();
 
@@ -211,7 +211,6 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
     }
 
     public void actualizarPuntosPronostico(final String id, final String golesl, final String golesv) {
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Pronosticos").whereEqualTo("idPartido", id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -219,7 +218,6 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
                     for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                         Pronostico p = document.toObject(Pronostico.class);
                         int puntos = 0;
-
                         if (((Integer.parseInt(golesl) > Integer.parseInt(golesv)) && (p.getGlocal() > p.getGvisit())) || ((Integer.parseInt(golesl) < Integer.parseInt(golesv)) && (p.getGlocal() < p.getGvisit())) || ((Integer.parseInt(golesl) == Integer.parseInt(golesv)) && (p.getGlocal() == p.getGvisit())))
                             puntos = 5;
 
@@ -259,22 +257,23 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
     }
 
     private void actualizarTablas(final String nombre, final int gl, final int gv) {
-        db.collection("Equipos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore.collection("Equipos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful() && task.getResult() != null) {
-                    for (QueryDocumentSnapshot d : task.getResult()) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot d : Objects.requireNonNull(task.getResult())) {
                         Equipo e = d.toObject(Equipo.class);
                         if(e.getNombre().equals(nombre)){
-                            Toast.makeText(UpdateActivity.this, "n "+nombre, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UpdateActivity.this, "N: "+nombre+" n: "+e.getNombre()+" id: "+e.getIdEquipo(), Toast.LENGTH_SHORT).show();
                             if(gl > gv){
-                                db.collection("Equipos").document(e.getIdEquipo()).update("pG",e.getpG() + 1,
+                                firebaseFirestore.collection("Equipos").document(e.getIdEquipo()).update("pG",e.getpG() + 1,
                                         "gF", e.getgF() + gl, "gC", e.getgC() + gv, "puntos",e.getPuntos() + 3 );
                             }else if(gl == gv){
-                                db.collection("Equipos").document(e.getIdEquipo()).update("pE",e.getpE() + 1,
+                                firebaseFirestore.collection("Equipos").document(e.getIdEquipo()).update("pE",e.getpE() + 1,
                                         "gF", e.getgF() + gl, "gC", e.getgC() + gv, "puntos",e.getPuntos() + 1 );
                             }else{
-                                db.collection("Equipos").document(e.getIdEquipo()).update("pP",e.getpP() + 1,
+                                firebaseFirestore.collection("Equipos").document(e.getIdEquipo()).update("pP",e.getpP() + 1,
                                         "gF", e.getgF() + gl, "gC", e.getgC() + gv);
                             }
                         }

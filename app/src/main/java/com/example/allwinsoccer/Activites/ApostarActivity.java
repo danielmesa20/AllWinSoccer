@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,7 +52,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     private ImageView b_local, b_visit;
     private TextView n_local, n_visit;
     private EditText g_local, g_visit;
-    private ImageButton imgb;
     private String idPartido;
     private BottomNavigationView navView;
     private LinearLayout ly1, ly2, ly3;
@@ -99,7 +97,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         n_visit = findViewById(R.id.name_visit);
         g_local = findViewById(R.id.goles_local);
         g_visit = findViewById(R.id.goles_visit);
-        imgb = findViewById(R.id.b_apostar);
         ly1 = findViewById(R.id.linearLayoutLocal);
         ly2 = findViewById(R.id.linearLayoutVisit);
         ly3 = findViewById(R.id.linearLayoutBotton);
@@ -127,8 +124,8 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         db.collection("Partidos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful() && task.getResult() != null) {
-                    for (QueryDocumentSnapshot d : task.getResult()) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot d : Objects.requireNonNull(task.getResult())) {
                         final Partido partido = d.toObject(Partido.class);
                         partidos.clear();
                         if (verificarFechaPartido(Objects.requireNonNull(partido).getFecha())) {
@@ -170,7 +167,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                     }
                 }
                 navView.setVisibility(View.VISIBLE);
-                imgb.setVisibility(View.VISIBLE);
                 progressDialog.dismiss();
             }
         });
@@ -292,7 +288,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     private void goPrincipalActivity() {
         Intent i = new Intent(ApostarActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 

@@ -20,8 +20,8 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Apostar</string>
     <string name="title_notifications">Pronósticos</string>
-    <string name="title_position">Posición</string>
-    <string name="title_grupos">Grupos</string>
+    <string name="title_position">Quiniela</string>
+    <string name="title_grupos">Posiciones</string>
 
 
     //PronosticoActivity
@@ -72,5 +72,23 @@
     //Jugadores
     <string name="porteros">PORTERO DEL TORNEO</string>
     <string name="jugadores">JUGADOR DEL TORNEO</string>
+
+    //Reglas
+    <string name="reglas">Reglas de la Quiniela</string>
+    <string name="reglas_texto">
+        Puntaje por partidos:
+                \n \n 1) Se dan 5 puntos por acertar el ganador del partido.
+                \n \n 2) Se dan 10 puntos por  acertar los gol que anota un equipo.
+                \n \n 3) Como máximo pueden obtenerse 25 puntos por partido.
+                \n \n 4) Se debe realizar la apuesta al menos 30 minutos antes del comienzo del partido.
+                \n \n 5) Una vez ingresado el pronóstico no se puede cambiar.
+                \n \n 6) En caso de empate en las posiciones de la quiniela
+                \n \n Puntaje Extra:
+                \n \n 1) Por acertar el Balón de Oro de la copa se obtienen 30 puntos.
+                \n \n 2) Por acertar el Guante de Oro de la copa se obtienen 30 puntos.
+                \n \n 3) Estos puntajes de sumaran al finalizar la copa.
+               "
+    </string>
+
 
 </resources>

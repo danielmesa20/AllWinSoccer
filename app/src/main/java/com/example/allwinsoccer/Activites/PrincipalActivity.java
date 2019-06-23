@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.allwinsoccer.Models.Usuario;
 import com.example.allwinsoccer.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -20,12 +22,18 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class PrincipalActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient googleApiClient;
     private String idUsuario;
     private RelativeLayout rl;
+    private ImageView bota, guante;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -56,6 +64,9 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
         setContentView(R.layout.activity_principal);
         rl = findViewById(R.id.container);
         rl.setVisibility(View.INVISIBLE);
+        bota = findViewById(R.id.bota);
+        guante = findViewById(R.id.guante);
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
@@ -83,13 +94,38 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
             if (account != null) {
-                rl.setVisibility(View.VISIBLE);
+                verificarJugadores(account.getId());
                 idUsuario = account.getId();
             } else {
                 Toast.makeText(this, "Error handleSignInResult", Toast.LENGTH_SHORT).show();
             }
         } else
             goLogin();
+    }
+
+    private void verificarJugadores(final String id){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("Usuarios").document(id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists()){
+                        Usuario u = document.toObject(Usuario.class);
+                        if(u.getIdMejorJugador() != null ){
+                            bota.setVisibility(View.GONE);
+                        }
+                        if(u.getIdMejorPortero() != null){
+                            guante.setVisibility(View.GONE);
+                        }
+                    }
+                } else {
+                    Toast.makeText(PrincipalActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+                rl.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
@@ -135,12 +171,19 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
     public void goUpdate(View view) {
         Intent i = new Intent(PrincipalActivity.this, UpdateActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", idUsuario);
         startActivity(i);
     }
 
     public void goJugadores(View view){
         Intent i = new Intent(PrincipalActivity.this, JugadorActivity.class);
+        i.putExtra("idUser", idUsuario);
+        startActivity(i);
+    }
+
+    public void goPorteros(View view){
+        Intent i = new Intent(PrincipalActivity.this, PorteroActivity.class);
+        i.putExtra("idUser", idUsuario);
         startActivity(i);
     }
 
@@ -153,7 +196,7 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
     private void goGrupos() {
         Intent i = new Intent(PrincipalActivity.this, GruposActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", idUsuario);
         startActivity(i);
     }
 }

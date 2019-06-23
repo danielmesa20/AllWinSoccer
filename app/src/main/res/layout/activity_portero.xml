@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    tools:context=".Activites.JugadorActivity">
+    tools:context=".Activites.PorteroActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/jugadores"
+        android:text="@string/porteros"
         android:textColor="@color/colorWhite"
         android:textSize="23sp"
         android:layout_margin="10dp"
@@ -44,7 +44,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:onClick="premiosTorneo"
-            android:src="@drawable/icono_bota"
+            android:src="@drawable/guantes"
             app:backgroundTint="@color/colorWhite"
             app:maxImageSize="55dp" />
 

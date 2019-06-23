@@ -26,7 +26,7 @@
         android:title="@string/title_position" />
     <item
         android:id="@+id/navigation_update"
-        android:icon="@drawable/estra"
+        android:icon="@drawable/tablas"
         android:title="@string/title_grupos" />
 
 </menu>
