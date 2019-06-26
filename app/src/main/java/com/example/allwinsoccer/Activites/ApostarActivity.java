@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +55,8 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     private EditText g_local, g_visit;
     private String idPartido;
     private BottomNavigationView navView;
-    private LinearLayout ly1, ly2, ly3;
+    private LinearLayout ly1, ly2, ly3, ly4;
+    private RadioButton r1, r2, r3;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -100,10 +102,15 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         ly1 = findViewById(R.id.linearLayoutLocal);
         ly2 = findViewById(R.id.linearLayoutVisit);
         ly3 = findViewById(R.id.linearLayoutBotton);
+        ly4 = findViewById(R.id.linearLayout);
+        r1 = findViewById(R.id.descuento);
+        r2 = findViewById(R.id.extra);
+        r3 = findViewById(R.id.penales);
 
         ly1.setVisibility(View.GONE);
         ly2.setVisibility(View.GONE);
         ly3.setVisibility(View.GONE);
+        ly4.setVisibility(View.GONE);
 
         listarPartidos();
 
@@ -182,6 +189,7 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         ly1.setVisibility(View.VISIBLE);
         ly2.setVisibility(View.VISIBLE);
         ly3.setVisibility(View.VISIBLE);
+        ly4.setVisibility(View.VISIBLE);
     }
 
     private String fActual() {
@@ -210,6 +218,7 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         ly1.setVisibility(View.GONE);
         ly2.setVisibility(View.GONE);
         ly3.setVisibility(View.GONE);
+        ly4.setVisibility(View.GONE);
     }
 
     public void registrarPronostico(View view) {
@@ -226,7 +235,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
             builder.setMessage("¿Está seguro que es el resultado que quiere ingresar? (no podrá cambiarlo)");
             builder.setTitle("Advertencia");
             builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
-
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -240,6 +248,15 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                     p.setNlocal(n_local.getText().toString());
                     p.setNvisit(n_visit.getText().toString());
                     p.setFecha(fActual());
+                    if(r1.isChecked()){ //0: DESCUENTO, 1: TIEMPO EXTRA, 2:PENALES, -1: NINGUNA
+                        p.setExtra(0);
+                    }else if(r2.isChecked()){
+                        p.setExtra(1);
+                    }else if(r3.isChecked()){
+                        p.setExtra(2);
+                    }else{
+                        p.setExtra(-1);
+                    }
                     db.collection("Pronosticos").document(p.getIdPronostico()).set(p);
                     Toast.makeText(ApostarActivity.this, "Pronóstico registrado Correctamente", Toast.LENGTH_SHORT).show();
                     listarPartidos();

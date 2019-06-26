@@ -2,13 +2,13 @@ package com.example.allwinsoccer.Activites;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.allwinsoccer.Models.Usuario;
@@ -28,11 +28,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class PrincipalActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient googleApiClient;
     private String idUsuario;
-    private RelativeLayout rl;
+    private ConstraintLayout cl;
     private ImageView bota, guante;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -62,11 +66,10 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
-        rl = findViewById(R.id.container);
-        rl.setVisibility(View.INVISIBLE);
-        bota = findViewById(R.id.bota);
-        guante = findViewById(R.id.guante);
-
+        cl = findViewById(R.id.container);
+        cl.setVisibility(View.INVISIBLE);
+        bota = findViewById(R.id.jugador_torneo);
+        guante = findViewById(R.id.portero_torneo);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
@@ -90,12 +93,29 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
         }
     }
 
+    private String fActual() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
+        return dateFormat.format(new Date());
+    }
+
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
             if (account != null) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
+                try {
+                    Date fechaActual = dateFormat.parse(fActual()), fechaTope = dateFormat.parse("20:00 23/06");
+                    float diferencia = (float) ((fechaTope.getTime() - fechaActual.getTime()) / 60000);
+                    if(diferencia > 0){
+                        verificarJugadores(account.getId());
+                    }
+                } catch (java.text.ParseException e) {
+                    Toast.makeText(this, "Error fecha", Toast.LENGTH_SHORT).show();
+                }
+
                 verificarJugadores(account.getId());
                 idUsuario = account.getId();
+
             } else {
                 Toast.makeText(this, "Error handleSignInResult", Toast.LENGTH_SHORT).show();
             }
@@ -123,7 +143,7 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
                 } else {
                     Toast.makeText(PrincipalActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
-                rl.setVisibility(View.VISIBLE);
+                cl.setVisibility(View.VISIBLE);
             }
         });
     }

@@ -33,7 +33,7 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
     private RecyclerView rv_jugadores;
     private List<Jugador> jugadores;
     private AdapterRecyclerJugador adapterRecyclerJugador;
-    private String idJugador = null;
+    private String idJugador = null, nombre = null;
     private ConstraintLayout constraintLayout;
 
     @Override
@@ -76,8 +76,47 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
                 }
                 constraintLayout.setVisibility(View.VISIBLE);
                 progressDialog.dismiss();
+                mostrarInformacion();
             }
         });
+    }
+
+    private  void mostrarInformacion(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("En esta pantalla podrás escoger tu candidado al Balón de Oro de la Copa América 2019." +
+                " Si aciertas se te asignaran 20 puntos al finalizar la competición.");
+        builder.setTitle("Info, fecha tope 23:59 01/07");
+        builder.setPositiveButton("Continuar",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.setNegativeButton("Volver", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                goPrincipal();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private  void mostrarConfirmacion(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Se a guardado tu elección al Balón de Oro: "+nombre+" los puntos correspondientes " +
+                "se sumarán al finalizar la Copa Ámerica 2019.");
+        builder.setTitle("Confirmación");
+        builder.setPositiveButton("Salir",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                goPrincipal();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void premiosTorneo(View view) {
@@ -85,8 +124,8 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
             Toast.makeText(this, "Debe elegir el jugador", Toast.LENGTH_SHORT).show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("¿Está seguro que es el jugador que quiere elegir? (no podrá cambiarlo)");
-            builder.setTitle("Advertencia");
+            builder.setMessage("¿Está seguro que "+nombre+" es el jugador que quiere elegir? (no podrá cambiarlo)");
+            builder.setTitle("Confirmación");
             builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -106,7 +145,7 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
                         }
                     });
                     Toast.makeText(JugadorActivity.this, "Guardado correctamente ", Toast.LENGTH_SHORT).show();
-                    goPrincipal();
+                    mostrarConfirmacion();
                 }
             });
             builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -130,6 +169,7 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
     public void onNoteClick(int position) {
         Jugador j = jugadores.get(position);
         idJugador = j.getIdJugador();
+        nombre = j.getNombre();
         Toast.makeText(this, "Haz elegido a: " + j.getNombre(), Toast.LENGTH_SHORT).show();
     }
 

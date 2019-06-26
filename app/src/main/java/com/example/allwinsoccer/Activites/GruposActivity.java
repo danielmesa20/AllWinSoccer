@@ -14,7 +14,9 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.allwinsoccer.Models.Equipo;
+import com.example.allwinsoccer.Models.Partido;
 import com.example.allwinsoccer.Objects.AdapterRecyclerGrupo;
+import com.example.allwinsoccer.Objects.AdapterRecyclerPartido;
 import com.example.allwinsoccer.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,15 +25,22 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
-public class GruposActivity extends AppCompatActivity {
+public class GruposActivity extends AppCompatActivity implements AdapterRecyclerPartido.OnNoteListener {
 
-    private RecyclerView rv_GrupoA, rv_GrupoB, rv_GrupoC;
+    private RecyclerView rv_GrupoA, rv_GrupoB, rv_GrupoC, rv_cuartos;
     private ScrollView scrollView;
     private BottomNavigationView navView;
+    private ProgressDialog progressDialog;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -65,24 +74,24 @@ public class GruposActivity extends AppCompatActivity {
         navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navView.setVisibility(View.INVISIBLE);
-
         scrollView = findViewById(R.id.scrollView);
         scrollView.setVisibility(View.INVISIBLE);
-
         rv_GrupoA = findViewById(R.id.rv_grupoA);
         rv_GrupoA.setLayoutManager(new LinearLayoutManager(this));
         rv_GrupoB = findViewById(R.id.rv_grupoB);
         rv_GrupoB.setLayoutManager(new LinearLayoutManager(this));
         rv_GrupoC = findViewById(R.id.rv_grupoC);
         rv_GrupoC.setLayoutManager(new LinearLayoutManager(this));
-
+        rv_cuartos = findViewById(R.id.rv_cuartos);
+        rv_cuartos.setLayoutManager(new LinearLayoutManager(this));
+        progressDialog = new ProgressDialog(GruposActivity.this);
         mostrarGrupos();
+        mostrarFaseFinal();
     }
 
     private void mostrarGrupos(){
 
-        final ProgressDialog progressDialog = new ProgressDialog(GruposActivity.this);
-        progressDialog.setMessage("Cargando las Posiciones de los Equipos...");
+        progressDialog.setMessage("Cargando datos de la Copa...");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
@@ -124,7 +133,44 @@ public class GruposActivity extends AppCompatActivity {
                     adapterRecyclerGrupoC.notifyDataSetChanged();
                 } else
                     Toast.makeText(GruposActivity.this, "Error getting documents: "+task.getException(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
+    private void mostrarFaseFinal(){
+        final List<Partido> cuartosFinal;
+        final AdapterRecyclerPartido adapterRecyclerCuartos;
+        cuartosFinal = new ArrayList<>();
+        adapterRecyclerCuartos = new AdapterRecyclerPartido (cuartosFinal, this);
+        rv_cuartos.setAdapter(adapterRecyclerCuartos);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Partidos").whereEqualTo("fase", "Cuartos de final").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    cuartosFinal.clear();
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                        Partido p = document.toObject(Partido.class);
+                        cuartosFinal.add(p);
+                        Collections.sort(cuartosFinal, new Comparator<Partido>() {
+                            @Override
+                            public int compare(Partido o1, Partido o2) {
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
+                                Date f1 = null, f2 = null;
+                                try {
+                                    f1 = dateFormat.parse(o1.getFecha());
+                                    f2 = dateFormat.parse(o2.getFecha());
+                                } catch (ParseException ex) {
+                                    Toast.makeText(GruposActivity.this, "Error parse", Toast.LENGTH_SHORT).show();
+                                }
+                                assert f1 != null;
+                                return f1.compareTo(f2);
+                            }
+                        });
+                    }
+                    adapterRecyclerCuartos.notifyDataSetChanged();
+                } else
+                    Toast.makeText(GruposActivity.this, "Error getting documents: "+task.getException(), Toast.LENGTH_SHORT).show();
                 scrollView.setVisibility(View.VISIBLE);
                 navView.setVisibility(View.VISIBLE);
                 progressDialog.dismiss();
@@ -159,4 +205,8 @@ public class GruposActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    @Override
+    public void onNoteClick(int position) {
+
+    }
 }

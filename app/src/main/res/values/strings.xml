@@ -50,7 +50,7 @@
 
 
     //Recycler Grupos
-    <string name="tablaGrupos">Tabla de Posiciones</string>
+    <string name="tablaGrupos">Fase de Grupos</string>
     <string name="grupoA">GRUPO A</string>
     <string name="grupoB">GRUPO B</string>
     <string name="grupoC">GRUPO C</string>
@@ -76,19 +76,20 @@
     //Reglas
     <string name="reglas">Reglas de la Quiniela</string>
     <string name="reglas_texto">
-        Puntaje por partidos:
-                \n \n 1) Se dan 5 puntos por acertar el ganador del partido.
-                \n \n 2) Se dan 10 puntos por  acertar los gol que anota un equipo.
-                \n \n 3) Como máximo pueden obtenerse 25 puntos por partido.
-                \n \n 4) Se debe realizar la apuesta al menos 30 minutos antes del comienzo del partido.
-                \n \n 5) Una vez ingresado el pronóstico no se puede cambiar.
-                \n \n 6) En caso de empate en las posiciones de la quiniela
-                \n \n Puntaje Extra:
-                \n \n 1) Por acertar el Balón de Oro de la copa se obtienen 30 puntos.
-                \n \n 2) Por acertar el Guante de Oro de la copa se obtienen 30 puntos.
-                \n \n 3) Estos puntajes de sumaran al finalizar la copa.
+         Puntaje por partidos:
+                \n \n  1) Se dan 5 puntos por acertar el ganador del partido.
+                \n \n  2) Se dan 10 puntos por  acertar los gol que anota un equipo.
+                \n \n  3) Como máximo pueden obtenerse 25 puntos por partido.
+                \n \n  4) Se debe realizar la apuesta al menos 30 minutos antes del comienzo del partido.
+                \n \n  5) Una vez ingresado el pronóstico no se puede cambiar.
+                \n \n  6) En caso de empate en las posiciones de la quiniela
+                \n \n  Puntaje Extra:
+                \n \n  1) Por acertar el Balón de Oro de la copa se obtienen 30 puntos.
+                \n \n  2) Por acertar el Guante de Oro de la copa se obtienen 30 puntos.
+                \n \n  3) Estos puntajes de sumaran al finalizar la copa.
                "
     </string>
 
+    <string name="cuartos">Cuartos de Final</string>
 
 </resources>

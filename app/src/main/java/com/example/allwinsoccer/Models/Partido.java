@@ -3,8 +3,11 @@ package com.example.allwinsoccer.Models;
 public class Partido {
 
     private String idPartido, nlocal, nvisit, ubicacion, fase, grupo, fecha;
-    private int glocal, gvisit;
+    private int glocal, gvisit, extra;
 
+    public int getExtra() { return extra; }
+
+    public void setExtra(int extra) { this.extra = extra; }
 
     public String getIdPartido() {
         return idPartido;

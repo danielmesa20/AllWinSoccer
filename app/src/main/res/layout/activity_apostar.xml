@@ -13,29 +13,26 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutLocal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayoutLocal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutVisit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/b_local"
-            android:layout_width="65dp"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/descripcion"
             android:gravity="center"
@@ -43,7 +40,7 @@
 
         <TextView
             android:id="@+id/name_local"
-            android:layout_width="200dp"
+            android:layout_width="170dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/nameLocal"
@@ -70,8 +67,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutBotton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,14 +74,14 @@
 
         <ImageView
             android:id="@+id/b_visit"
-            android:layout_width="65dp"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/descripcion"
             android:src="@drawable/py" />
 
         <TextView
             android:id="@+id/name_visit"
-            android:layout_width="200dp"
+            android:layout_width="170dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/nameLocal"
@@ -107,24 +102,75 @@
 
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/linearLayoutBotton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_margin="5dp"
+        android:foregroundTint="@color/colorAccent"
         android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        tools:layout_editor_absoluteX="5dp">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="15dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/descuento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:text="Descuento"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/extra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:text="T.Extra"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/penales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:text="Penales"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/nav_view">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/b_apostar"
-            android:layout_width="55dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:onClick="registrarPronostico"
             android:src="@drawable/balon"
             app:backgroundTint="@color/colorWhite"
-            app:maxImageSize="55dp" />
+            app:maxImageSize="50dp" />
     </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView
@@ -140,6 +186,7 @@
         app:itemTextColor="@color/colorWhite"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/bottom_nav_menu" />

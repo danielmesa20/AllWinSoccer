@@ -33,9 +33,16 @@ public class AdapterRecyclerPartido extends RecyclerView.Adapter<AdapterRecycler
     @Override
     public void onBindViewHolder(@NonNull PartidosViewHolder partidosViewHolder, int i) {
         Partido p = partidos.get(i);
-        partidosViewHolder.tv_name_local.setText(p.getNlocal());
-        partidosViewHolder.tv_name_visit.setText(p.getNvisit());
-        partidosViewHolder.fecha.setText("Fecha: " + p.getFecha());
+        if (p.getGlocal() != -1) {
+            partidosViewHolder.fecha.setText("Partido finalizado");
+            partidosViewHolder.tv_name_local.setText(p.getNlocal()+"    "+p.getGlocal());
+            partidosViewHolder.tv_name_visit.setText(p.getGvisit()+"    "+p.getNvisit());
+
+        } else {
+            partidosViewHolder.fecha.setText("Fecha: " + p.getFecha());
+            partidosViewHolder.tv_name_local.setText(p.getNlocal());
+            partidosViewHolder.tv_name_visit.setText(p.getNvisit());
+        }
         actualizarIMG(p.getNlocal(), partidosViewHolder.iv_bandera_local);
         actualizarIMG(p.getNvisit(), partidosViewHolder.iv_bandera_visit);
     }

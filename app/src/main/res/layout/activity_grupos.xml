@@ -36,16 +36,32 @@
             android:orientation="vertical">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/cuartos"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorPrimaryDark"
+                android:textSize="24sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_cuartos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
                 android:gravity="center"
-                android:textColor="@color/colorWhite"
+                android:padding="5dp"
                 android:text="@string/tablaGrupos"
+                android:textColor="@color/colorWhite"
                 android:textSize="24sp"
+                android:background="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -55,26 +71,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:textColor="@color/colorWhite"
                 android:text="@string/grupoA"
+                android:textColor="@color/colorWhite"
                 android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/colorWhite"
                 android:background="@color/colorPrimaryDark"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:textColor="@color/colorWhite">
 
                 <TextView
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:gravity="center|start"
                     android:text="@string/nombreEquipo"
-                    android:textSize="15sp"
                     android:textColor="@color/colorWhite"
-                    />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="25dp"
@@ -82,8 +97,7 @@
                     android:gravity="center"
                     android:text="@string/pJ"
                     android:textColor="@color/colorWhite"
-                    android:textSize="13sp"
-                    />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:layout_width="25dp"
@@ -143,11 +157,17 @@
 
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_grupoA"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_grupoA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="match_parent"

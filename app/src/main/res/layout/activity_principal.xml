@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -13,9 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="-2dp"
         android:background="@color/colorPrimaryDark"
         android:scrollbarSize="0dp"
         app:elevation="0dp"
@@ -29,60 +26,56 @@
         app:menu="@menu/bottom_nav_menu" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="0dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="end"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/guante"
+        <ImageButton
+            android:id="@+id/jugador_torneo"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="15dp"
             android:contentDescription="@string/descripcion"
-            android:maxWidth="40dp"
-            android:onClick="goPorteros"
-            app:srcCompat="@drawable/guantes" />
+            android:background="@color/transparente"
+            android:onClick="goJugadores"
+            android:src="@drawable/jugador"
+            android:tint="@color/colorWhite" />
 
-        <ImageView
-            android:id="@+id/bota"
+        <ImageButton
+            android:id="@+id/portero_torneo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="15dp"
+            android:contentDescription="@string/descripcion"
+            android:background="@color/transparente"
+            android:onClick="goPorteros"
+            android:src="@drawable/portero"
+            android:tint="@color/colorWhite" />
+
+        <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="10dp"
             android:contentDescription="@string/descripcion"
-            android:maxWidth="40dp"
-            android:onClick="goJugadores"
-            app:srcCompat="@drawable/icono_bota" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="15dp"
-            android:backgroundTint="@color/blancoCopa"
-            android:contentDescription="@string/descripcion"
-            android:maxWidth="40dp"
-            android:onClick="goUpdate"
-            android:tint="@color/blancoCopa"
-            app:srcCompat="@drawable/update" />
+            android:background="@color/transparente"
+            android:onClick="logOut"
+            android:src="@drawable/saliricon"
+            android:tint="@color/colorWhite" />
 
         <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="40dp"
+            android:id="@+id/imageButton2"
+            android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="15dp"
-            android:backgroundTint="@color/colorGreenRaro"
+            android:layout_weight="1"
             android:contentDescription="@string/descripcion"
-            android:maxWidth="40dp"
-            android:onClick="logOut"
-            android:tint="@color/colorWhite"
-            app:srcCompat="@drawable/salir_48" />
+            android:onClick="goUpdate"
+            android:visibility="gone"
+            app:srcCompat="@drawable/balon"
+            tools:visibility="visible" />
 
 
     </LinearLayout>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
