@@ -28,6 +28,7 @@
             android:textSize="15sp"
             android:textColor="@color/colorWhite"
             android:layout_marginStart="5dp"/>
+
         <TextView
             android:id="@+id/pJugados"
             android:layout_width="20dp"

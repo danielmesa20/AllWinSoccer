@@ -104,10 +104,13 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
             if (account != null) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
                 try {
-                    Date fechaActual = dateFormat.parse(fActual()), fechaTope = dateFormat.parse("20:00 23/06");
+                    Date fechaActual = dateFormat.parse(fActual()), fechaTope = dateFormat.parse("15:00 28/06");
                     float diferencia = (float) ((fechaTope.getTime() - fechaActual.getTime()) / 60000);
                     if(diferencia > 0){
                         verificarJugadores(account.getId());
+                    }else{
+                        bota.setVisibility(View.GONE);
+                        guante.setVisibility(View.GONE);
                     }
                 } catch (java.text.ParseException e) {
                     Toast.makeText(this, "Error fecha", Toast.LENGTH_SHORT).show();

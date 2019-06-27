@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="@string/cuartos"
                 android:textColor="@color/colorWhite"
                 android:background="@color/colorPrimaryDark"
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="@string/tablaGrupos"
                 android:textColor="@color/colorWhite"
                 android:textSize="24sp"
@@ -69,7 +69,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/grupoA"
                 android:textColor="@color/colorWhite"
@@ -78,8 +78,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPrimaryDark"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorBlueDark"
                 android:orientation="horizontal"
                 android:textColor="@color/colorWhite">
 
@@ -172,7 +172,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/grupoB"
                 android:textColor="@color/colorWhite"
@@ -181,8 +181,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPrimaryDark"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorBlueDark"
                 android:orientation="horizontal">
 
                 <TextView
@@ -191,9 +191,7 @@
                     android:gravity="center|start"
                     android:text="@string/nombreEquipo"
                     android:textColor="@color/colorWhite"
-                    android:textSize="15sp"
-
-                    />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="25dp"
@@ -201,9 +199,7 @@
                     android:gravity="center"
                     android:text="@string/pJ"
                     android:textColor="@color/colorWhite"
-                    android:textSize="13sp"
-
-                    />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:layout_width="25dp"
@@ -272,17 +268,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="@string/grupoC"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/colorWhite"
                 android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPrimaryDark"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorBlueDark"
                 android:orientation="horizontal">
 
                 <TextView

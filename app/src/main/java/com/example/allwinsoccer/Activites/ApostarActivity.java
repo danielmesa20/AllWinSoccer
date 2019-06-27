@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,8 +54,7 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     private EditText g_local, g_visit;
     private String idPartido;
     private BottomNavigationView navView;
-    private LinearLayout ly1, ly2, ly3, ly4;
-    private RadioButton r1, r2, r3;
+    private LinearLayout ly1, ly2, ly3;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -90,7 +88,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navView.setVisibility(View.INVISIBLE);
-
         rv = findViewById(R.id.rv_partidos);
         rv.setLayoutManager(new LinearLayoutManager(this));
         b_local = findViewById(R.id.b_local);
@@ -101,19 +98,11 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         g_visit = findViewById(R.id.goles_visit);
         ly1 = findViewById(R.id.linearLayoutLocal);
         ly2 = findViewById(R.id.linearLayoutVisit);
-        ly3 = findViewById(R.id.linearLayoutBotton);
-        ly4 = findViewById(R.id.linearLayout);
-        r1 = findViewById(R.id.descuento);
-        r2 = findViewById(R.id.extra);
-        r3 = findViewById(R.id.penales);
-
+        ly3 = findViewById(R.id.linearLayout);
         ly1.setVisibility(View.GONE);
         ly2.setVisibility(View.GONE);
         ly3.setVisibility(View.GONE);
-        ly4.setVisibility(View.GONE);
-
         listarPartidos();
-
     }
 
     private void listarPartidos() {
@@ -189,7 +178,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         ly1.setVisibility(View.VISIBLE);
         ly2.setVisibility(View.VISIBLE);
         ly3.setVisibility(View.VISIBLE);
-        ly4.setVisibility(View.VISIBLE);
     }
 
     private String fActual() {
@@ -218,7 +206,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         ly1.setVisibility(View.GONE);
         ly2.setVisibility(View.GONE);
         ly3.setVisibility(View.GONE);
-        ly4.setVisibility(View.GONE);
     }
 
     public void registrarPronostico(View view) {
@@ -248,15 +235,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                     p.setNlocal(n_local.getText().toString());
                     p.setNvisit(n_visit.getText().toString());
                     p.setFecha(fActual());
-                    if(r1.isChecked()){ //0: DESCUENTO, 1: TIEMPO EXTRA, 2:PENALES, -1: NINGUNA
-                        p.setExtra(0);
-                    }else if(r2.isChecked()){
-                        p.setExtra(1);
-                    }else if(r3.isChecked()){
-                        p.setExtra(2);
-                    }else{
-                        p.setExtra(-1);
-                    }
                     db.collection("Pronosticos").document(p.getIdPronostico()).set(p);
                     Toast.makeText(ApostarActivity.this, "Pronóstico registrado Correctamente", Toast.LENGTH_SHORT).show();
                     listarPartidos();
@@ -264,14 +242,14 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                 }
             });
 
-            builder.setNeutralButton("Reglas", new DialogInterface.OnClickListener() {
+            builder.setNeutralButton("VER REGLAS", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mostrarReglas().show();
                 }
             });
 
-            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("VOLVER", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.allwinsoccer.Models.Jugador;
@@ -35,6 +36,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
     private AdapterRecyclerJugador adapterRecyclerJugador;
     private String idPortero = null, nombre = null;
     private ConstraintLayout constraintLayout;
+    private TextView portero_nombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
         constraintLayout = findViewById(R.id.jugador_ly);
         constraintLayout.setVisibility(View.INVISIBLE);
         rv_jugadores.setLayoutManager(new LinearLayoutManager(this));
+        portero_nombre = findViewById(R.id.portero_nombre);
         mostrarPorteros();
     }
 
@@ -75,6 +78,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
                     Toast.makeText(PorteroActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
                 }
                 constraintLayout.setVisibility(View.VISIBLE);
+                portero_nombre.setVisibility(View.GONE);
                 progressDialog.dismiss();
                 mostrarInformacion();
             }
@@ -85,14 +89,14 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("En esta pantalla podrás escoger tu candidado al Guante de Oro de la Copa América 2019. " +
                 " Si aciertas se te asignaran 20 puntos al finalizar la competición.");
-        builder.setTitle("Info, fecha tope 23:59 01/07");
-        builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+        builder.setTitle("Info, fecha tope 15:00 28/06");
+        builder.setPositiveButton("CONTINUAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
-        builder.setNegativeButton("Volver", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("VOLVER", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 goPrincipal();
@@ -104,9 +108,9 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
 
     private void mostrarConfirmacion() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Se a guardado tu elección al Guante de Oro: " + nombre + " los puntos correspondientes se sumarán al finalizar la Copa América.");
-        builder.setTitle("Confirmación");
-        builder.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+        builder.setMessage("Se ha guardado tu elección de  "+ nombre + " al Guante de Oro, los puntos correspondientes se sumarán al finalizar la Copa América.");
+        builder.setTitle("CONFIRMACIÓN");
+        builder.setPositiveButton("CONTINUAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -120,7 +124,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
 
     public void premiosTorneo(View view) {
         if (idPortero == null || idPortero.isEmpty()) {
-            Toast.makeText(this, "Debe elegir el jugador", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Primero debe elegir un jugador", Toast.LENGTH_SHORT).show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("¿Está seguro que: " + nombre + " es el jugador que quiere elegir? (no podrá cambiarlo).");
@@ -168,6 +172,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
         Jugador j = porteros.get(position);
         idPortero = j.getIdJugador();
         nombre = j.getNombre();
-        Toast.makeText(this, "Haz elegido a: " + j.getNombre(), Toast.LENGTH_SHORT).show();
+        portero_nombre.setText("Seleccionado: "+nombre);
+        portero_nombre.setVisibility(View.VISIBLE);
     }
 }

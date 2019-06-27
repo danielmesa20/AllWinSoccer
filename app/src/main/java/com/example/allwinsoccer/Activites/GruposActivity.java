@@ -171,6 +171,7 @@ public class GruposActivity extends AppCompatActivity implements AdapterRecycler
                     adapterRecyclerCuartos.notifyDataSetChanged();
                 } else
                     Toast.makeText(GruposActivity.this, "Error getting documents: "+task.getException(), Toast.LENGTH_SHORT).show();
+
                 scrollView.setVisibility(View.VISIBLE);
                 navView.setVisibility(View.VISIBLE);
                 progressDialog.dismiss();
@@ -206,7 +207,5 @@ public class GruposActivity extends AppCompatActivity implements AdapterRecycler
     }
 
     @Override
-    public void onNoteClick(int position) {
-
-    }
+    public void onNoteClick(int position) { }
 }

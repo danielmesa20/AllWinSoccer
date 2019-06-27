@@ -17,7 +17,7 @@
         android:textColor="@color/colorWhite"
         android:textSize="23sp"
         android:background="@color/colorPrimary"
-        android:padding="5dp"
+        android:padding="10dp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="80dp" />
@@ -29,9 +29,21 @@
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintBottom_toTopOf="@+id/jugador_nombre"
         app:layout_constraintTop_toBottomOf="@+id/textView">
     </android.support.v7.widget.RecyclerView>
+
+
+    <TextView
+        android:id="@+id/jugador_nombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"

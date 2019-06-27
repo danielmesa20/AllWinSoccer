@@ -3,11 +3,7 @@ package com.example.allwinsoccer.Models;
 public class Pronostico {
 
     private String idPronostico, idUsuario, idPartido, nlocal, nvisit, fecha;
-    private int puntos, gvisit, glocal, extra;
-
-    public int getExtra() { return extra; }
-
-    public void setExtra(int extra) { this.extra = extra; }
+    private int puntos, gvisit, glocal;
 
     public String getIdPronostico() {
         return idPronostico;
