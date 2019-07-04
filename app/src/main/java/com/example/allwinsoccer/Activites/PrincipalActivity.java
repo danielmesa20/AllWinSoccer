@@ -93,6 +93,7 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
         }
     }
 
+    //Hora igual del telefono
     private String fActual() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
         return dateFormat.format(new Date());
@@ -106,9 +107,9 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
                 try {
                     Date fechaActual = dateFormat.parse(fActual()), fechaTope = dateFormat.parse("15:00 28/06");
                     float diferencia = (float) ((fechaTope.getTime() - fechaActual.getTime()) / 60000);
-                    if(diferencia > 0){
+                    if (diferencia > 0) {
                         verificarJugadores(account.getId());
-                    }else{
+                    } else {
                         bota.setVisibility(View.GONE);
                         guante.setVisibility(View.GONE);
                     }
@@ -126,7 +127,8 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
             goLogin();
     }
 
-    private void verificarJugadores(final String id){
+    //Verificar si el usuario ya ingreso sus pronosticos al jugador y portero del torneo
+    private void verificarJugadores(final String id) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("Usuarios").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -134,12 +136,13 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document != null && document.exists()){
+                    if (document != null && document.exists()) {
                         Usuario u = document.toObject(Usuario.class);
-                        if(u.getIdMejorJugador() != null ){
+                        assert u != null;
+                        if (u.getIdMejorJugador() != null) { //Si el usuario ya ingreso el Jugador del torneo se quita el boton asociado
                             bota.setVisibility(View.GONE);
                         }
-                        if(u.getIdMejorPortero() != null){
+                        if (u.getIdMejorPortero() != null) { //Si el usuario ya ingreso el portero del torneo se quita el boton asociado
                             guante.setVisibility(View.GONE);
                         }
                     }
@@ -152,8 +155,10 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) { }
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
 
+    //Cerra sesión en Google
     public void logOut(View view) {
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
@@ -170,6 +175,7 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
         });
     }
 
+    //Metodos para ir a las otras activities
     private void goApostarActivity() {
         Intent i = new Intent(PrincipalActivity.this, ApostarActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -198,13 +204,13 @@ public class PrincipalActivity extends AppCompatActivity implements GoogleApiCli
         startActivity(i);
     }
 
-    public void goJugadores(View view){
+    public void goJugadores(View view) {
         Intent i = new Intent(PrincipalActivity.this, JugadorActivity.class);
         i.putExtra("idUser", idUsuario);
         startActivity(i);
     }
 
-    public void goPorteros(View view){
+    public void goPorteros(View view) {
         Intent i = new Intent(PrincipalActivity.this, PorteroActivity.class);
         i.putExtra("idUser", idUsuario);
         startActivity(i);

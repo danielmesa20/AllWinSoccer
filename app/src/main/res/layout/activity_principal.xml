@@ -72,7 +72,7 @@
             android:layout_weight="1"
             android:contentDescription="@string/descripcion"
             android:onClick="goUpdate"
-            android:visibility="gone"
+            android:visibility="visible"
             app:srcCompat="@drawable/update"
             tools:visibility="visible" />
 

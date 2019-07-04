@@ -13,7 +13,7 @@ import com.example.allwinsoccer.R;
 
 import java.util.List;
 
-public class AdapterRecyclerPronostico extends RecyclerView.Adapter<AdapterRecyclerPronostico.PronosticosViewHolder>{
+public class AdapterRecyclerPronostico extends RecyclerView.Adapter<AdapterRecyclerPronostico.PronosticosViewHolder> {
 
     private List<Pronostico> pronosticos;
     private OnNoteListener mOnNoteListener;
@@ -32,18 +32,18 @@ public class AdapterRecyclerPronostico extends RecyclerView.Adapter<AdapterRecyc
 
     @Override
     public void onBindViewHolder(@NonNull PronosticosViewHolder pronosticosViewHolder, int i) {
-            Pronostico p = pronosticos.get(i);
-            pronosticosViewHolder.tv_name_local.setText(p.getNlocal());
-            pronosticosViewHolder.tv_name_visit.setText(p.getNvisit());
-            pronosticosViewHolder.tv_goles_local.setText(String.valueOf(p.getGlocal()));
-            pronosticosViewHolder.tv_goles_visit.setText(String.valueOf(p.getGvisit()));
-            if(p.getPuntos()!=-1){
-                pronosticosViewHolder.puntos.setText("Puntos Obtenidos: "+String.valueOf(p.getPuntos()));
-            }else{
-                pronosticosViewHolder.puntos.setText(R.string.partidoNoFinalizado);
-            }
-            actualizarIMG(p.getNlocal(),pronosticosViewHolder.iv_bandera_local);
-            actualizarIMG(p.getNvisit(),pronosticosViewHolder.iv_bandera_visit);
+        Pronostico p = pronosticos.get(i);
+        pronosticosViewHolder.tv_name_local.setText(p.getNlocal());
+        pronosticosViewHolder.tv_name_visit.setText(p.getNvisit());
+        pronosticosViewHolder.tv_goles_local.setText(String.valueOf(p.getGlocal()));
+        pronosticosViewHolder.tv_goles_visit.setText(String.valueOf(p.getGvisit()));
+        if (p.getPuntos() != -1) {
+            pronosticosViewHolder.puntos.setText("Puntos Obtenidos: " + String.valueOf(p.getPuntos()));
+        } else {
+            pronosticosViewHolder.puntos.setText(R.string.partidoNoFinalizado);
+        }
+        actualizarIMG(p.getNlocal(), pronosticosViewHolder.iv_bandera_local);
+        actualizarIMG(p.getNvisit(), pronosticosViewHolder.iv_bandera_visit);
     }
 
     @Override
@@ -51,13 +51,13 @@ public class AdapterRecyclerPronostico extends RecyclerView.Adapter<AdapterRecyc
         return pronosticos.size();
     }
 
-    public static class PronosticosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class PronosticosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView tv_name_local,tv_name_visit, puntos, tv_goles_local, tv_goles_visit;
+        TextView tv_name_local, tv_name_visit, puntos, tv_goles_local, tv_goles_visit;
         ImageView iv_bandera_local, iv_bandera_visit;
         OnNoteListener onNoteListener;
 
-        public PronosticosViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
+        PronosticosViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
             super(itemView);
             tv_name_local = itemView.findViewById(R.id.nLocal);
             tv_name_visit = itemView.findViewById(R.id.nVisit);
@@ -76,7 +76,7 @@ public class AdapterRecyclerPronostico extends RecyclerView.Adapter<AdapterRecyc
         }
     }
 
-    public interface OnNoteListener{
+    public interface OnNoteListener {
         void onNoteClick(int position);
     }
 

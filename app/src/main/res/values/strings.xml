@@ -44,6 +44,9 @@
     <string name="title_activity_update">UpdateActivity</string>
     <string name="title_update">Actualizar</string>
 
+    //RecyclerPartido
+    <string name="fecha_partido">Fecha: %1$s</string>
+
     //RecyclerPronostico
     <string name="puntosObtenidos"> Puntos Obtenidos: %1$s</string>
 
@@ -70,6 +73,7 @@
     //Jugadores
     <string name="porteros"> GUANTE DE ORO</string>
     <string name="jugadores">BALÓN DE ORO</string>
+    <string name="eleccion">Selección: %1$s</string>
 
     //Reglas
     <string name="reglas">Reglas de la Quiniela</string>
@@ -92,5 +96,8 @@
     </string>
 
     <string name="cuartos">Cuartos de Final</string>
+    <string name="semifinales">Semifinales</string>
+    <string name="tercerlugar">Tercer Lugar</string>
+    <string name="finals">Final</string>
 
 </resources>

@@ -189,7 +189,7 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    db.collection("Partidos").document(idPartido).update("glocal", Integer.parseInt(glocalS),"gvisit", Integer.parseInt(gvisitS));
+                    db.collection("Partidos").document(idPartido).update("glocal", Integer.parseInt(glocalS), "gvisit", Integer.parseInt(gvisitS));
                     actualizarTablas(nombreL, Integer.parseInt(glocalS), Integer.parseInt(gvisitS));
                     actualizarTablas(nombreV, Integer.parseInt(gvisitS), Integer.parseInt(glocalS));
                     actualizarPuntosPronostico(idPartido, glocalS, gvisitS);
@@ -264,16 +264,16 @@ public class UpdateActivity extends AppCompatActivity implements AdapterRecycler
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot d : Objects.requireNonNull(task.getResult())) {
                         Equipo e = d.toObject(Equipo.class);
-                        if(e.getNombre().equals(nombre)){
-                            Toast.makeText(UpdateActivity.this, "N: "+nombre+" n: "+e.getNombre()+" id: "+e.getIdEquipo(), Toast.LENGTH_SHORT).show();
-                            if(gl > gv){
-                                firebaseFirestore.collection("Equipos").document(e.getIdEquipo()).update("pG",e.getpG() + 1,
-                                        "gF", e.getgF() + gl, "gC", e.getgC() + gv, "puntos",e.getPuntos() + 3 );
-                            }else if(gl == gv){
-                                firebaseFirestore.collection("Equipos").document(e.getIdEquipo()).update("pE",e.getpE() + 1,
-                                        "gF", e.getgF() + gl, "gC", e.getgC() + gv, "puntos",e.getPuntos() + 1 );
-                            }else{
-                                firebaseFirestore.collection("Equipos").document(e.getIdEquipo()).update("pP",e.getpP() + 1,
+                        if (e.getNombre().equals(nombre)) {
+                            Toast.makeText(UpdateActivity.this, "N: " + nombre + " n: " + e.getNombre() + " id: " + e.getIdEquipo(), Toast.LENGTH_SHORT).show();
+                            if (gl > gv) {
+                                firebaseFirestore.collection("Equipos").document(e.getIdEquipo()).update("pG", e.getpG() + 1,
+                                        "gF", e.getgF() + gl, "gC", e.getgC() + gv, "puntos", e.getPuntos() + 3);
+                            } else if (gl == gv) {
+                                firebaseFirestore.collection("Equipos").document(e.getIdEquipo()).update("pE", e.getpE() + 1,
+                                        "gF", e.getgF() + gl, "gC", e.getgC() + gv, "puntos", e.getPuntos() + 1);
+                            } else {
+                                firebaseFirestore.collection("Equipos").document(e.getIdEquipo()).update("pP", e.getpP() + 1,
                                         "gF", e.getgF() + gl, "gC", e.getgC() + gv);
                             }
                         }

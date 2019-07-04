@@ -108,7 +108,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
 
     private void mostrarConfirmacion() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Se ha guardado tu elección de  "+ nombre + " al Guante de Oro, los puntos correspondientes se sumarán al finalizar la Copa América.");
+        builder.setMessage("Se ha guardado tu elección de  " + nombre + " al Guante de Oro, los puntos correspondientes se sumarán al finalizar la Copa América.");
         builder.setTitle("CONFIRMACIÓN");
         builder.setPositiveButton("CONTINUAR", new DialogInterface.OnClickListener() {
             @Override
@@ -172,7 +172,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
         Jugador j = porteros.get(position);
         idPortero = j.getIdJugador();
         nombre = j.getNombre();
-        portero_nombre.setText("Seleccionado: "+nombre);
+        portero_nombre.setText(getString(R.string.eleccion, nombre));
         portero_nombre.setVisibility(View.VISIBLE);
     }
 }

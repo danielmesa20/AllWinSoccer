@@ -55,7 +55,9 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     private String idPartido;
     private BottomNavigationView navView;
     private LinearLayout ly1, ly2, ly3;
+    private boolean vacio = true;
 
+    //Barra de navegación
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -102,10 +104,11 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         ly1.setVisibility(View.GONE);
         ly2.setVisibility(View.GONE);
         ly3.setVisibility(View.GONE);
-        listarPartidos();
+        mostrarPartidos();
     }
 
-    private void listarPartidos() {
+    //Muestra una lista de los partidos en los que puede apostar el usuario
+    private void mostrarPartidos() {
 
         final ProgressDialog progressDialog = new ProgressDialog(ApostarActivity.this);
         progressDialog.setMessage("Cargando los Partidos...");
@@ -119,7 +122,7 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
 
         db.collection("Partidos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) { //Se traen todos los partidos de la base de datos
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot d : Objects.requireNonNull(task.getResult())) {
                         final Partido partido = d.toObject(Partido.class);
@@ -139,9 +142,10 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                                     }
                                     if (queryDocumentSnapshots.isEmpty() || !apostado) {
                                         partidos.add(partido);
+                                        vacio = false;
                                         Collections.sort(partidos, new Comparator<Partido>() {
                                             @Override
-                                            public int compare(Partido o1, Partido o2) {
+                                            public int compare(Partido o1, Partido o2) {  //Se ordenar los partidos por fecha
                                                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
                                                 Date f1 = null, f2 = null;
                                                 try {
@@ -150,7 +154,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                                                 } catch (ParseException ex) {
                                                     Toast.makeText(ApostarActivity.this, "Error parse", Toast.LENGTH_SHORT).show();
                                                 }
-
                                                 assert f1 != null;
                                                 return f1.compareTo(f2);
                                             }
@@ -166,9 +169,12 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                 progressDialog.dismiss();
             }
         });
-
+        if (vacio) {            // Si no hay partidos para apostar
+            Toast.makeText(ApostarActivity.this, "No hay partidos para apostar", Toast.LENGTH_LONG).show();
+        }
     }
 
+    // Actualizar las imagenes y nombres de las equipos en la vista
     private void actualizar(String name_local, String name_visit, String idP) {
         n_local.setText(name_local);
         n_visit.setText(name_visit);
@@ -180,11 +186,13 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         ly3.setVisibility(View.VISIBLE);
     }
 
+    // Devuelve la fecha actual del telefono, para poder compararla con la fecha del partido y saber si el usuario puede apostar en ese partido
     private String fActual() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
         return dateFormat.format(new Date());
     }
 
+    // Se verifica si el partido tiene una fecha valida, es decir que si ya el partido paso
     private Boolean verificarFechaPartido(String fPartido) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
         try {
@@ -197,6 +205,7 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         return false;
     }
 
+    // Se borran las imagenes y nombres de las equipos en la vista
     private void reiniciar() {
         n_local.setText(R.string.equipoL);
         n_visit.setText(R.string.equipoV);
@@ -208,14 +217,15 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         ly3.setVisibility(View.GONE);
     }
 
+    // Se registra el pronostico ingresado por el usuario
     public void registrarPronostico(View view) {
 
         final String glocalS = g_local.getText().toString(), gvisitS = g_visit.getText().toString();
-        if (idPartido == null || getIntent().getStringExtra("idUser") == null) {
+        if (idPartido == null) {                                                                        // Verifica que el usuario haya elegido un partido
             Toast.makeText(this, "Debe elegir un partido", Toast.LENGTH_SHORT).show();
-        } else if (glocalS.isEmpty() || gvisitS.isEmpty()) {
+        } else if (glocalS.isEmpty() || gvisitS.isEmpty()) {                                            // Verifica que el usuario haya ingresado los goles
             Toast.makeText(ApostarActivity.this, "Debe rellenar los campos", Toast.LENGTH_SHORT).show();
-        } else if (Integer.parseInt(glocalS) > 99 || Integer.parseInt(gvisitS) > 99) {
+        } else if (Integer.parseInt(glocalS.trim()) > 99 || Integer.parseInt(gvisitS.trim()) > 99) {    // Verifica que los goles serian entre [0-99]
             Toast.makeText(this, "Debe ingresar un número entre [0-99] ", Toast.LENGTH_SHORT).show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -223,35 +233,35 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
             builder.setTitle("Advertencia");
             builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(DialogInterface dialog, int which) {            // Guarda el pronostico del usuario
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     Pronostico p = new Pronostico();
                     p.setIdPronostico(UUID.randomUUID().toString());
                     p.setIdUsuario(getIntent().getStringExtra("idUser"));
                     p.setIdPartido(idPartido);
-                    p.setGlocal(Integer.parseInt(glocalS));
-                    p.setGvisit(Integer.parseInt(gvisitS));
-                    p.setPuntos(-1); //quitar
+                    p.setGlocal(Integer.parseInt(glocalS.trim()));
+                    p.setGvisit(Integer.parseInt(gvisitS.trim()));
+                    p.setPuntos(-1);
                     p.setNlocal(n_local.getText().toString());
                     p.setNvisit(n_visit.getText().toString());
                     p.setFecha(fActual());
                     db.collection("Pronosticos").document(p.getIdPronostico()).set(p);
                     Toast.makeText(ApostarActivity.this, "Pronóstico registrado Correctamente", Toast.LENGTH_SHORT).show();
-                    listarPartidos();
+                    mostrarPartidos();
                     reiniciar();
                 }
             });
 
             builder.setNeutralButton("VER REGLAS", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(DialogInterface dialog, int which) {     // Mostrar reglas al usuario
                     mostrarReglas().show();
                 }
             });
 
             builder.setNegativeButton("VOLVER", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(DialogInterface dialog, int which) {        // Volver a la vista apostar
                     dialog.cancel();
                 }
             });
@@ -260,8 +270,8 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         }
     }
 
+    // AlerDialog que muestra las reglas al usuario
     private AlertDialog mostrarReglas() {
-
         final AlertDialog alertDialogReglas;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final ViewGroup nullParent = null;
@@ -271,44 +281,17 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         builder.setView(v);
         alertDialogReglas = builder.create();
         bsalir.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialogReglas.dismiss();
-                    }
-                });
-
+            @Override
+            public void onClick(View v) {
+                alertDialogReglas.dismiss();
+            }
+        });
         return alertDialogReglas;
     }
 
-    private void goPrincipalActivity() {
-        Intent i = new Intent(ApostarActivity.this, PrincipalActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(i);
-    }
-
-    private void goPronostico() {
-        Intent i = new Intent(ApostarActivity.this, PronosticoActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
-        startActivity(i);
-    }
-
-    private void goPosicion() {
-        Intent i = new Intent(ApostarActivity.this, PosicionActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
-        startActivity(i);
-    }
-
-    private void goGrupos() {
-        Intent i = new Intent(ApostarActivity.this, GruposActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
-        startActivity(i);
-    }
-
+    // Actualiza las banderas de los equipos en la vista
     private void actualizarIMG(String name, ImageView iv) {
-        iv.setVisibility(View.VISIBLE);
+        iv.setVisibility(View.VISIBLE);                         //Se pone el imageView visible al usuario
         switch (name) {
             case "Argentina":
                 iv.setImageResource(R.drawable.ar);
@@ -351,8 +334,36 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         }
     }
 
+    // Metodos para ir a otras activities con los botones de la barra de navegación
+    private void goPrincipalActivity() {
+        Intent i = new Intent(ApostarActivity.this, PrincipalActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+    }
+
+    private void goPronostico() {
+        Intent i = new Intent(ApostarActivity.this, PronosticoActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
+        startActivity(i);
+    }
+
+    private void goPosicion() {
+        Intent i = new Intent(ApostarActivity.this, PosicionActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
+        startActivity(i);
+    }
+
+    private void goGrupos() {
+        Intent i = new Intent(ApostarActivity.this, GruposActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
+        startActivity(i);
+    }
+
     @Override
-    public void onNoteClick(int position) {
+    public void onNoteClick(int position) {                 //Al hacer click en un elemento del RecyclerView
         Partido p = partidos.get(position);
         actualizar(p.getNlocal(), p.getNvisit(), p.getIdPartido());
         actualizarIMG(p.getNlocal(), b_local);

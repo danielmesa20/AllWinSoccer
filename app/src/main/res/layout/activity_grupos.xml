@@ -41,6 +41,57 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:padding="10dp"
+                android:text="@string/finals"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorPrimaryDark"
+                android:textSize="24sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_final"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/tercerlugar"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorPrimaryDark"
+                android:textSize="24sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_tercerlugar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/semifinales"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorPrimaryDark"
+                android:textSize="24sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_semifinales"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:padding="10dp"
                 android:text="@string/cuartos"
                 android:textColor="@color/colorWhite"
                 android:background="@color/colorPrimaryDark"

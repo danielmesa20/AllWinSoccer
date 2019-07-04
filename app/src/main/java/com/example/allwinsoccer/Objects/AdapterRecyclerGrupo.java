@@ -48,12 +48,12 @@ public class AdapterRecyclerGrupo extends RecyclerView.Adapter<AdapterRecyclerGr
        return equipos.size();
     }
 
-    public static class GruposViewHolder extends RecyclerView.ViewHolder{
+    static class GruposViewHolder extends RecyclerView.ViewHolder{
 
         TextView pJugados, pGanados, pEmpatados, pPerdidos, gFavor, gContra, gDife, puntos, nombre;
         ImageView bandera;
 
-        public GruposViewHolder(@NonNull View itemView) {
+        GruposViewHolder(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.nombre);
             bandera = itemView.findViewById(R.id.bandera);

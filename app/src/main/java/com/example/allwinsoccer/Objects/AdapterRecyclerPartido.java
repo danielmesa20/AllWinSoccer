@@ -34,9 +34,9 @@ public class AdapterRecyclerPartido extends RecyclerView.Adapter<AdapterRecycler
     public void onBindViewHolder(@NonNull PartidosViewHolder partidosViewHolder, int i) {
         Partido p = partidos.get(i);
         if (p.getGlocal() != -1) {
-            partidosViewHolder.fecha.setText("Partido finalizado");
-            partidosViewHolder.tv_name_local.setText(p.getNlocal()+"    "+p.getGlocal());
-            partidosViewHolder.tv_name_visit.setText(p.getGvisit()+"    "+p.getNvisit());
+            partidosViewHolder.fecha.setText(R.string.partidoFinalizado);
+            partidosViewHolder.tv_name_local.setText(p.getNlocal() + "    " + p.getGlocal());
+            partidosViewHolder.tv_name_visit.setText(p.getGvisit() + "    " + p.getNvisit());
 
         } else {
             partidosViewHolder.fecha.setText("Fecha: " + p.getFecha());
@@ -58,7 +58,7 @@ public class AdapterRecyclerPartido extends RecyclerView.Adapter<AdapterRecycler
         ImageView iv_bandera_local, iv_bandera_visit;
         OnNoteListener onNoteListener;
 
-        public PartidosViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
+        PartidosViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
             super(itemView);
             tv_name_local = itemView.findViewById(R.id.nLocal);
             tv_name_visit = itemView.findViewById(R.id.nVisit);
@@ -74,7 +74,6 @@ public class AdapterRecyclerPartido extends RecyclerView.Adapter<AdapterRecycler
             onNoteListener.onNoteClick(getAdapterPosition());
         }
     }
-
 
     public interface OnNoteListener {
         void onNoteClick(int position);

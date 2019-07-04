@@ -14,12 +14,11 @@ import java.util.List;
 
 public class AdapterRecyclerJugador extends RecyclerView.Adapter<AdapterRecyclerJugador.JugadoresViewHolder> {
 
-    private List<Jugador> jugadores, porteros;
+    private List<Jugador> jugadores;
     private OnNoteListener mOnNoteListener;
 
     public AdapterRecyclerJugador(List<Jugador> jugadores, OnNoteListener onNoteListener) {
         this.jugadores = jugadores;
-        this.porteros = porteros;
         this.mOnNoteListener = onNoteListener;
     }
 
@@ -49,7 +48,7 @@ public class AdapterRecyclerJugador extends RecyclerView.Adapter<AdapterRecycler
         ImageView bandera_jugador;
         OnNoteListener onNoteListener;
 
-        public JugadoresViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
+        JugadoresViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
             super(itemView);
             bandera_jugador = itemView.findViewById(R.id.bandera_jugador);
             nombre_jugador = itemView.findViewById(R.id.nombre_jugador);

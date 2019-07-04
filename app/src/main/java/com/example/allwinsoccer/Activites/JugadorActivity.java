@@ -50,6 +50,7 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
         mostrarJugadores();
     }
 
+    // Muestra todos los jugadores de la copa y los ordena por pais
     private void mostrarJugadores() {
 
         final ProgressDialog progressDialog = new ProgressDialog(JugadorActivity.this);
@@ -69,7 +70,7 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                         Jugador j = document.toObject(Jugador.class);
-                        if (!j.getPosicion().equals("Portero")) {
+                        if (!j.getPosicion().equals("Portero")) {       // Muestra los jugadores que no son porteros.
                             jugadores.add(j);
                         }
                     }
@@ -85,12 +86,13 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
         });
     }
 
-    private  void mostrarInformacion(){
+    //Muestar mensaje información , de para que sirve esta activity
+    private void mostrarInformacion() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("En esta pantalla podrás escoger tu candidado al Balón de Oro de la Copa América 2019." +
                 " Si aciertas se te asignaran 20 puntos al finalizar la competición.");
         builder.setTitle("Info, fecha tope 15:00 28/06");
-        builder.setPositiveButton("CONTINUAR",new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("CONTINUAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -106,12 +108,13 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
         dialog.show();
     }
 
-    private  void mostrarConfirmacion(){
+    // Mensaje de confirmación, de que la eleción del usuario se ha guardado correctamente
+    private void mostrarConfirmacion() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Se ha guardado tu elección de "+nombre+" al Balón de Oro, los puntos correspondientes " +
+        builder.setMessage("Se ha guardado tu elección de " + nombre + " al Balón de Oro, los puntos correspondientes " +
                 "se sumarán al finalizar la Copa Ámerica 2019.");
         builder.setTitle("Confirmación");
-        builder.setPositiveButton("CONTINUAR",new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("CONTINUAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -123,12 +126,13 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
         dialog.show();
     }
 
+    // Registrar la eleccion del usuario
     public void premiosTorneo(View view) {
-        if (idJugador == null || idJugador.isEmpty()) {
+        if (idJugador == null || idJugador.isEmpty()) {     // Verifica que el usuario haya elegido una opción
             Toast.makeText(this, "Primero debe elegir un jugador", Toast.LENGTH_SHORT).show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("¿Está seguro que "+nombre+" es el jugador que quiere elegir? (no podrá cambiarlo)");
+            builder.setMessage("¿Está seguro que " + nombre + " es el jugador que quiere elegir? (no podrá cambiarlo)");
             builder.setTitle("Confirmación");
             builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
                 @Override
@@ -163,6 +167,7 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
         }
     }
 
+    //Ir a la pantalla principal
     private void goPrincipal() {
         Intent i = new Intent(JugadorActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -170,11 +175,11 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
     }
 
     @Override
-    public void onNoteClick(int position) {
+    public void onNoteClick(int position) {   //Hacer hacer click en un item del recyclerView
         Jugador j = jugadores.get(position);
         idJugador = j.getIdJugador();
         nombre = j.getNombre();
-        jugador_nombre.setText("Seleccionado: "+nombre);
+        jugador_nombre.setText(getString(R.string.eleccion, nombre));
         jugador_nombre.setVisibility(View.VISIBLE);
     }
 

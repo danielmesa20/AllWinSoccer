@@ -23,7 +23,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener  {
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient googleApiClient;
 
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build();
+        googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
         SignInButton signInButton = findViewById(R.id.signInButton);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,25 +46,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 777){
+        if (requestCode == 777) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
-        if (result.isSuccess()){
+        if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
-            if(account != null){
-                buscarAUsuarios(account.getId(),account.getEmail());
+            if (account != null) {
+                buscarAUsuarios(account.getId(), account.getEmail());
                 goPrincipalActivity(account.getId());
             }
-        }else{
-            Toast.makeText(this, "NO se pudo ingresar "+result.getStatus().toString(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "NO se pudo ingresar " + result.getStatus().toString(), Toast.LENGTH_LONG).show();
         }
     }
 
-    private void buscarAUsuarios(final String id, final String email){
+    //Verifica si el usuario ya está registrado
+    private void buscarAUsuarios(final String id, final String email) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("Usuarios").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -72,8 +73,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document != null && !document.exists()){
-                        agregarUsuario(email,id);
+                    if (document != null && !document.exists()) {
+                        agregarUsuario(email, id);
                     }
                 } else {
                     Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
@@ -82,7 +83,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
     }
 
-    private void agregarUsuario(String email, String idUsuario){
+    // Se registra el usuario en la base de datos
+    private void agregarUsuario(String email, String idUsuario) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Usuario u = new Usuario();
         u.setEmail(email);
@@ -92,16 +94,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         db.collection("Usuarios").document(idUsuario).set(u);
     }
 
-    public  String generarNombre(String email){
+    // Toma el correo del usuario y genera un nombre de usuario c: example@gmail.com -> n: example
+    public String generarNombre(String email) {
         String name = "";
         boolean parar = false;
-        int i=0;
-        while (i < email.length() && !parar){
-            if(email.charAt(i) == '@'){
+        int i = 0;
+        while (i < email.length() && !parar) {
+            if (email.charAt(i) == '@') {
                 parar = true;
             }
 
-            if(!parar){
+            if (!parar) {
                 name = name + email.charAt(i);
             }
 
@@ -110,6 +113,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         return name;
     }
 
+    // Ir a la pantalla principal
     private void goPrincipalActivity(String idUsuario) {
         Intent i = new Intent(this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

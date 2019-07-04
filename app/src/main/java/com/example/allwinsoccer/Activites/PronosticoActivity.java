@@ -44,7 +44,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
     private List<Pronostico> pronosticos;
     private AdapterRecyclerPronostico adapterRecyclerPronostico;
     private TextView tv_puntos, titulo;
-    private ProgressDialog   progressDialog, progressDialog2;
+    private ProgressDialog progressDialog, progressDialog2;
     private BottomNavigationView navView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -90,6 +90,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
         listarPronosticos();
     }
 
+    //Muestra los pronosticos ingresados de un usuario
     private void listarPronosticos() {
 
         progressDialog2.setMessage("Cargando Pronósticos");
@@ -101,7 +102,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
         rv.setAdapter(adapterRecyclerPronostico);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Pronosticos").whereEqualTo("idUsuario",getIntent().getStringExtra("idUser")).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Pronosticos").whereEqualTo("idUsuario", getIntent().getStringExtra("idUser")).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 pronosticos.clear();
@@ -110,18 +111,18 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
                     for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                         Pronostico p = document.toObject(Pronostico.class);
                         pronosticos.add(p);
-                        if(p.getPuntos() != -1){
+                        if (p.getPuntos() != -1) {
                             puntos = puntos + p.getPuntos();
                         }
                     }
-                    if(puntos > 0)
-                        tv_puntos.setText(getString(R.string.puntaje,puntos));
+                    if (puntos > 0)
+                        tv_puntos.setText(getString(R.string.puntaje, puntos));
                     else
                         tv_puntos.setText(R.string.noPuntaje);
 
                     Collections.sort(pronosticos, new Comparator<Pronostico>() {
                         @Override
-                        public int compare(Pronostico o1, Pronostico o2) {
+                        public int compare(Pronostico o1, Pronostico o2) {      //Se ordenar por fecha
                             SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
                             Date f1 = null, f2 = null;
                             try {
@@ -149,7 +150,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
 
     }
 
-    private void buscarPartido(String idPartido){
+    private void buscarPartido(String idPartido) {
         progressDialog.setMessage("Cargando detalles del partido");
         progressDialog.setCancelable(false);
         progressDialog.show();
@@ -168,7 +169,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
         });
     }
 
-    private AlertDialog detallesPartido(Partido p){
+    private AlertDialog detallesPartido(Partido p) {
         final AlertDialog alertDialog;
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final ViewGroup nullParent = null;
@@ -177,18 +178,18 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
         TextView nl = v.findViewById(R.id.nl), nv = v.findViewById(R.id.nv), gl = v.findViewById(R.id.gl), gv = v.findViewById(R.id.gv);
         TextView fp = v.findViewById(R.id.fp), fasep = v.findViewById(R.id.fasep), estado = v.findViewById(R.id.estado), ubi = v.findViewById(R.id.ubicacion);
         ImageView bl = v.findViewById(R.id.bl), bv = v.findViewById(R.id.bv);
-        actualizarIMG(p.getNlocal(),bl);
-        actualizarIMG(p.getNvisit(),bv);
+        actualizarIMG(p.getNlocal(), bl);
+        actualizarIMG(p.getNvisit(), bv);
         nl.setText(p.getNlocal());
         nv.setText(p.getNvisit());
         ubi.setText(getString(R.string.ubicacionPartido, p.getUbicacion()));
         fasep.setText(p.getFase());
         fp.setText(getString(R.string.fechaPartido, p.getFecha()));
-        if(p.getGvisit() == -1){
+        if (p.getGvisit() == -1) {
             estado.setText(R.string.partidoNoFinalizado);
             gl.setText(R.string.NA);
             gv.setText(R.string.NA);
-        }else{
+        } else {
             estado.setText(R.string.partidoFinalizado);
             gl.setText(String.valueOf(p.getGlocal()));
             gv.setText(String.valueOf(p.getGvisit()));
@@ -197,7 +198,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
         builder.setView(v);
         alertDialog = builder.create();
         bsalir.setOnClickListener(
-                new View.OnClickListener(){
+                new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         alertDialog.dismiss();
@@ -260,21 +261,15 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
     private void goApostar() {
         Intent i = new Intent(PronosticoActivity.this, ApostarActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 
     private void goPosicion() {
         Intent i = new Intent(PronosticoActivity.this, PosicionActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
-    }
-
-    @Override
-    public void onNoteClick(int position) {
-        Pronostico p = pronosticos.get(position);
-        buscarPartido(p.getIdPartido());
     }
 
     private void goGrupos() {
@@ -282,6 +277,12 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
+    }
+
+    @Override
+    public void onNoteClick(int position) {
+        Pronostico p = pronosticos.get(position);
+        buscarPartido(p.getIdPartido());
     }
 
 }

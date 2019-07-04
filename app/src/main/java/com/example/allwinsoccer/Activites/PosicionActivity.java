@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PosicionActivity extends AppCompatActivity{
+public class PosicionActivity extends AppCompatActivity {
 
     private RecyclerView rv;
     private BottomNavigationView navView;
@@ -49,7 +49,7 @@ public class PosicionActivity extends AppCompatActivity{
                 case R.id.navigation_position:
                     return true;
                 case R.id.navigation_update:
-                   goGrupos();
+                    goGrupos();
                     return true;
             }
             return false;
@@ -70,7 +70,7 @@ public class PosicionActivity extends AppCompatActivity{
 
     private void listarUsuarios() {
 
-        final ProgressDialog progressDialog =  new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Cargando Posiciones...");
         progressDialog.setCancelable(false);
         progressDialog.show();
@@ -93,7 +93,7 @@ public class PosicionActivity extends AppCompatActivity{
                     }
                     adapterRecyclerPosicion.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(PosicionActivity.this, "Error getting documents: "+task.getException(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PosicionActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
                 }
 
                 navView.setVisibility(View.VISIBLE);
@@ -112,14 +112,14 @@ public class PosicionActivity extends AppCompatActivity{
     private void goApostarActivity() {
         Intent i = new Intent(PosicionActivity.this, ApostarActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 
     private void goPronosticoActivity() {
         Intent i = new Intent(PosicionActivity.this, PronosticoActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 

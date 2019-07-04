@@ -37,11 +37,12 @@ import java.util.Objects;
 
 public class GruposActivity extends AppCompatActivity implements AdapterRecyclerPartido.OnNoteListener {
 
-    private RecyclerView rv_GrupoA, rv_GrupoB, rv_GrupoC, rv_cuartos;
+    private RecyclerView rv_GrupoA, rv_GrupoB, rv_GrupoC, rv_cuartos, rv_semifinal, rv_tercerlugar, rv_final;
     private ScrollView scrollView;
     private BottomNavigationView navView;
     private ProgressDialog progressDialog;
 
+    // Barra de navegación
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -84,29 +85,36 @@ public class GruposActivity extends AppCompatActivity implements AdapterRecycler
         rv_GrupoC.setLayoutManager(new LinearLayoutManager(this));
         rv_cuartos = findViewById(R.id.rv_cuartos);
         rv_cuartos.setLayoutManager(new LinearLayoutManager(this));
+        rv_semifinal = findViewById(R.id.rv_semifinales);
+        rv_semifinal.setLayoutManager(new LinearLayoutManager(this));
+        rv_tercerlugar = findViewById(R.id.rv_tercerlugar);
+        rv_tercerlugar.setLayoutManager(new LinearLayoutManager(this));
+        rv_final = findViewById(R.id.rv_final);
+        rv_final.setLayoutManager(new LinearLayoutManager(this));
         progressDialog = new ProgressDialog(GruposActivity.this);
         mostrarGrupos();
         mostrarFaseFinal();
     }
 
-    private void mostrarGrupos(){
+    //Muestra la tabla de posiciones de los equipos en la fase de grupos
+    private void mostrarGrupos() {
 
-        progressDialog.setMessage("Cargando datos de la Copa...");
+        progressDialog.setMessage("Cargando datos de la Copa...");      // Mensaje de carga
         progressDialog.setCancelable(false);
         progressDialog.show();
 
         final List<Equipo> equiposGA, equiposGB, equiposGC;
-        final AdapterRecyclerGrupo adapterRecyclerGrupoA,adapterRecyclerGrupoB, adapterRecyclerGrupoC;
+        final AdapterRecyclerGrupo adapterRecyclerGrupoA, adapterRecyclerGrupoB, adapterRecyclerGrupoC;
 
-        equiposGA = new ArrayList<>();
+        equiposGA = new ArrayList<>();                                  // Tabla grupo A
         adapterRecyclerGrupoA = new AdapterRecyclerGrupo(equiposGA);
         rv_GrupoA.setAdapter(adapterRecyclerGrupoA);
 
-        equiposGB = new ArrayList<>();
+        equiposGB = new ArrayList<>();                                  // Tabla grupo B
         adapterRecyclerGrupoB = new AdapterRecyclerGrupo(equiposGB);
         rv_GrupoB.setAdapter(adapterRecyclerGrupoB);
 
-        equiposGC = new ArrayList<>();
+        equiposGC = new ArrayList<>();                                  // Tabla grupo C
         adapterRecyclerGrupoC = new AdapterRecyclerGrupo(equiposGC);
         rv_GrupoC.setAdapter(adapterRecyclerGrupoC);
 
@@ -120,11 +128,11 @@ public class GruposActivity extends AppCompatActivity implements AdapterRecycler
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                         Equipo e = document.toObject(Equipo.class);
-                        if(e.getGrupo() == 0){          // 0: Grupo A
+                        if (e.getGrupo() == 0) {           // 0: Grupo A
                             equiposGA.add(e);
-                        }else if(e.getGrupo() == 1){    // 1: Grupo B
+                        } else if (e.getGrupo() == 1) {    // 1: Grupo B
                             equiposGB.add(e);
-                        }else{                          // 2: Grupo C
+                        } else {                           // 2: Grupo C
                             equiposGC.add(e);
                         }
                     }
@@ -132,45 +140,93 @@ public class GruposActivity extends AppCompatActivity implements AdapterRecycler
                     adapterRecyclerGrupoB.notifyDataSetChanged();
                     adapterRecyclerGrupoC.notifyDataSetChanged();
                 } else
-                    Toast.makeText(GruposActivity.this, "Error getting documents: "+task.getException(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GruposActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void mostrarFaseFinal(){
-        final List<Partido> cuartosFinal;
-        final AdapterRecyclerPartido adapterRecyclerCuartos;
+    //Muestra los encuentros de la fase final de la copa
+    private void mostrarFaseFinal() {
+        final List<Partido> cuartosFinal, semifinales, tercerlugar, finals;
+        final AdapterRecyclerPartido adapterRecyclerCuartos, adapterRecyclerSemifinal, adapterRecyclerTercer, adapterRecyclerFinal;
+
         cuartosFinal = new ArrayList<>();
-        adapterRecyclerCuartos = new AdapterRecyclerPartido (cuartosFinal, this);
+        semifinales = new ArrayList<>();
+        tercerlugar = new ArrayList<>();
+        finals = new ArrayList<>();
+
+        adapterRecyclerCuartos = new AdapterRecyclerPartido(cuartosFinal, this);
+        adapterRecyclerSemifinal = new AdapterRecyclerPartido(semifinales, this);
+        adapterRecyclerTercer = new AdapterRecyclerPartido(tercerlugar, this);
+        adapterRecyclerFinal = new AdapterRecyclerPartido(finals, this);
+
         rv_cuartos.setAdapter(adapterRecyclerCuartos);
+        rv_semifinal.setAdapter(adapterRecyclerSemifinal);
+        rv_tercerlugar.setAdapter(adapterRecyclerTercer);
+        rv_final.setAdapter(adapterRecyclerFinal);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Partidos").whereEqualTo("fase", "Cuartos de final").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Partidos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     cuartosFinal.clear();
+                    semifinales.clear();
+                    finals.clear();
+                    tercerlugar.clear();
                     for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                         Partido p = document.toObject(Partido.class);
-                        cuartosFinal.add(p);
-                        Collections.sort(cuartosFinal, new Comparator<Partido>() {
-                            @Override
-                            public int compare(Partido o1, Partido o2) {
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
-                                Date f1 = null, f2 = null;
-                                try {
-                                    f1 = dateFormat.parse(o1.getFecha());
-                                    f2 = dateFormat.parse(o2.getFecha());
-                                } catch (ParseException ex) {
-                                    Toast.makeText(GruposActivity.this, "Error parse", Toast.LENGTH_SHORT).show();
-                                }
-                                assert f1 != null;
-                                return f1.compareTo(f2);
-                            }
-                        });
+                        switch (p.getFase()) {
+                            case "Cuartos de final":
+                                cuartosFinal.add(p);
+                                Collections.sort(cuartosFinal, new Comparator<Partido>() {
+                                    @Override
+                                    public int compare(Partido o1, Partido o2) {
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
+                                        Date f1 = null, f2 = null;
+                                        try {
+                                            f1 = dateFormat.parse(o1.getFecha());
+                                            f2 = dateFormat.parse(o2.getFecha());
+                                        } catch (ParseException ex) {
+                                            Toast.makeText(GruposActivity.this, "Error parse", Toast.LENGTH_SHORT).show();
+                                        }
+                                        assert f1 != null;
+                                        return f1.compareTo(f2);
+                                    }
+                                });
+                                break;
+                            case "Semifinales":
+                                semifinales.add(p);
+                                Collections.sort(semifinales, new Comparator<Partido>() {
+                                    @Override
+                                    public int compare(Partido o1, Partido o2) {
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
+                                        Date f1 = null, f2 = null;
+                                        try {
+                                            f1 = dateFormat.parse(o1.getFecha());
+                                            f2 = dateFormat.parse(o2.getFecha());
+                                        } catch (ParseException ex) {
+                                            Toast.makeText(GruposActivity.this, "Error parse", Toast.LENGTH_SHORT).show();
+                                        }
+                                        assert f1 != null;
+                                        return f1.compareTo(f2);
+                                    }
+                                });
+                                break;
+                            case "Tercer lugar":
+                                tercerlugar.add(p);
+                                break;
+                            case "Final":
+                                finals.add(p);
+                                break;
+                        }
                     }
                     adapterRecyclerCuartos.notifyDataSetChanged();
+                    adapterRecyclerSemifinal.notifyDataSetChanged();
+                    adapterRecyclerTercer.notifyDataSetChanged();
+                    adapterRecyclerFinal.notifyDataSetChanged();
                 } else
-                    Toast.makeText(GruposActivity.this, "Error getting documents: "+task.getException(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GruposActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
 
                 scrollView.setVisibility(View.VISIBLE);
                 navView.setVisibility(View.VISIBLE);
@@ -179,6 +235,7 @@ public class GruposActivity extends AppCompatActivity implements AdapterRecycler
         });
     }
 
+    //Metodos por ir de esta activity a otra
     private void goPrincipalActivity() {
         Intent i = new Intent(GruposActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -195,17 +252,18 @@ public class GruposActivity extends AppCompatActivity implements AdapterRecycler
     private void goPosicion() {
         Intent i = new Intent(GruposActivity.this, PosicionActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 
     private void goApostar() {
         Intent i = new Intent(GruposActivity.this, ApostarActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("idUser",getIntent().getStringExtra("idUser"));
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 
     @Override
-    public void onNoteClick(int position) { }
+    public void onNoteClick(int position) {
+    }
 }
