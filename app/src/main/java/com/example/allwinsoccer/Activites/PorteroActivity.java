@@ -50,6 +50,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
         mostrarPorteros();
     }
 
+    // Muestra una lista con los porteros de la Copa
     private void mostrarPorteros() {
 
         final ProgressDialog progressDialog = new ProgressDialog(PorteroActivity.this);
@@ -85,6 +86,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
         });
     }
 
+    // Muestra un mensaje explicandole al usuario para que sirve esta activity
     private void mostrarInformacion() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("En esta pantalla podrás escoger tu candidado al Guante de Oro de la Copa América 2019. " +
@@ -106,6 +108,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
         dialog.show();
     }
 
+    // Muestra un mensaje indicando que su elección fue guardada correctamente
     private void mostrarConfirmacion() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Se ha guardado tu elección de  " + nombre + " al Guante de Oro, los puntos correspondientes se sumarán al finalizar la Copa América.");
@@ -122,6 +125,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
         dialog.show();
     }
 
+    // Se guarda la elección del usuario
     public void premiosTorneo(View view) {
         if (idPortero == null || idPortero.isEmpty()) {
             Toast.makeText(this, "Primero debe elegir un jugador", Toast.LENGTH_SHORT).show();
@@ -161,6 +165,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
         }
     }
 
+    // Ir a la activity principal
     private void goPrincipal() {
         Intent i = new Intent(PorteroActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

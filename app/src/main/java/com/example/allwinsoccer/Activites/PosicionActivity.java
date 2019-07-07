@@ -68,6 +68,7 @@ public class PosicionActivity extends AppCompatActivity {
         listarUsuarios();
     }
 
+    // Muestra una lista con los usuarios registrados en la quiniela ordenados segun los puntos que tienen  de mayor a menor
     private void listarUsuarios() {
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -103,6 +104,7 @@ public class PosicionActivity extends AppCompatActivity {
 
     }
 
+    // Metodos para ir a otras activities
     private void goPrincipalActivity() {
         Intent i = new Intent(PosicionActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

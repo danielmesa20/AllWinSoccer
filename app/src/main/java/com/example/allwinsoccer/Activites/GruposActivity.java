@@ -264,6 +264,5 @@ public class GruposActivity extends AppCompatActivity implements AdapterRecycler
     }
 
     @Override
-    public void onNoteClick(int position) {
-    }
+    public void onNoteClick(int position) { }
 }

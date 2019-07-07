@@ -122,7 +122,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
 
                     Collections.sort(pronosticos, new Comparator<Pronostico>() {
                         @Override
-                        public int compare(Pronostico o1, Pronostico o2) {      //Se ordenar por fecha
+                        public int compare(Pronostico o1, Pronostico o2) {      //Se ordenar por fecha, los que aproximos de primeros
                             SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM", Locale.getDefault());
                             Date f1 = null, f2 = null;
                             try {
@@ -150,6 +150,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
 
     }
 
+    //Se buscan los datos de lso partidos, para poder ver su resultado
     private void buscarPartido(String idPartido) {
         progressDialog.setMessage("Cargando detalles del partido");
         progressDialog.setCancelable(false);
@@ -169,6 +170,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
         });
     }
 
+    //Se muetran los detalles de un partido, cuando este es pulsado por el usuario
     private AlertDialog detallesPartido(Partido p) {
         final AlertDialog alertDialog;
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -209,6 +211,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
         return alertDialog;
     }
 
+    //
     private void actualizarIMG(String name, ImageView iv) {
         switch (name) {
             case "Argentina":
@@ -252,6 +255,7 @@ public class PronosticoActivity extends AppCompatActivity implements AdapterRecy
         }
     }
 
+    //Metodos para ir a otras activities
     private void goPrincipalActivity() {
         Intent i = new Intent(PronosticoActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

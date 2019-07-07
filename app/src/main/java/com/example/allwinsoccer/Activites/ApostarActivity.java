@@ -55,7 +55,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     private String idPartido;
     private BottomNavigationView navView;
     private LinearLayout ly1, ly2, ly3;
-    private boolean vacio = true;
 
     //Barra de navegación
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -119,7 +118,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
         adapterRecyclerPartido = new AdapterRecyclerPartido(partidos, this);
         rv.setAdapter(adapterRecyclerPartido);
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         db.collection("Partidos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) { //Se traen todos los partidos de la base de datos
@@ -128,21 +126,24 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                         final Partido partido = d.toObject(Partido.class);
                         partidos.clear();
                         if (verificarFechaPartido(Objects.requireNonNull(partido).getFecha())) {
+                            //Se buscan los pronosticos del usuario
                             db.collection("Pronosticos").whereEqualTo("idUsuario", getIntent().getStringExtra("idUser")).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    int aux = 0;
                                     boolean apostado = false;
                                     if (!queryDocumentSnapshots.isEmpty()) {
                                         List<DocumentSnapshot> partidosApostados = queryDocumentSnapshots.getDocuments();
                                         for (DocumentSnapshot d : partidosApostados) {
                                             Pronostico pronostico = d.toObject(Pronostico.class);
+                                            //Se compara con los pronosticos del usuario, que este solo pueda apostar una vez por paratido
                                             if (partido.getIdPartido().equals(Objects.requireNonNull(pronostico).getIdPartido()))
                                                 apostado = true;
                                         }
                                     }
                                     if (queryDocumentSnapshots.isEmpty() || !apostado) {
                                         partidos.add(partido);
-                                        vacio = false;
+                                        aux=1;
                                         Collections.sort(partidos, new Comparator<Partido>() {
                                             @Override
                                             public int compare(Partido o1, Partido o2) {  //Se ordenar los partidos por fecha
@@ -160,6 +161,9 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                                         });
                                         adapterRecyclerPartido.notifyDataSetChanged();
                                     }
+                                    if(aux==0){
+                                        Toast.makeText(ApostarActivity.this, "No hay partidos para apostar", Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             });
                         }
@@ -169,9 +173,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                 progressDialog.dismiss();
             }
         });
-        if (vacio) {            // Si no hay partidos para apostar
-            Toast.makeText(ApostarActivity.this, "No hay partidos para apostar", Toast.LENGTH_LONG).show();
-        }
     }
 
     // Actualizar las imagenes y nombres de las equipos en la vista

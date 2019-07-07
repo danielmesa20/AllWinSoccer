@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
-    //Verifica si el usuario ya está registrado
+    //Verifica si el usuario que está ingresando ya está registrado en la BD
     private void buscarAUsuarios(final String id, final String email) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("Usuarios").document(id);

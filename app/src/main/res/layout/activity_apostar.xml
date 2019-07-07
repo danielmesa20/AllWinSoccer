@@ -56,6 +56,7 @@
             android:gravity="center"
             android:hint="@string/hint"
             android:inputType="number"
+            android:maxLength="2"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite"
             tools:ignore="Autofill" />
@@ -97,6 +98,7 @@
             android:gravity="center|center_vertical"
             android:hint="@string/hint"
             android:inputType="number"
+            android:maxLength="2"
             android:textColorHint="@color/colorWhite"
             tools:ignore="Autofill" />
 
