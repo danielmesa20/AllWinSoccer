@@ -91,7 +91,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("En esta pantalla podrás escoger tu candidado al Guante de Oro de la Copa América 2019. " +
                 " Si aciertas se te asignaran 20 puntos al finalizar la competición.");
-        builder.setTitle("Info, fecha tope 15:00 28/06");
+        builder.setTitle("Info, fecha tope 20:00 13/07");
         builder.setPositiveButton("CONTINUAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -169,6 +169,7 @@ public class PorteroActivity extends AppCompatActivity implements AdapterRecycle
     private void goPrincipal() {
         Intent i = new Intent(PorteroActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 

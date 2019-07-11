@@ -130,20 +130,19 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                             db.collection("Pronosticos").whereEqualTo("idUsuario", getIntent().getStringExtra("idUser")).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                    int aux = 0;
                                     boolean apostado = false;
                                     if (!queryDocumentSnapshots.isEmpty()) {
                                         List<DocumentSnapshot> partidosApostados = queryDocumentSnapshots.getDocuments();
                                         for (DocumentSnapshot d : partidosApostados) {
                                             Pronostico pronostico = d.toObject(Pronostico.class);
                                             //Se compara con los pronosticos del usuario, que este solo pueda apostar una vez por paratido
-                                            if (partido.getIdPartido().equals(Objects.requireNonNull(pronostico).getIdPartido()))
+                                            if (partido.getIdPartido().equals(Objects.requireNonNull(pronostico).getIdPartido())) {
                                                 apostado = true;
+                                            }
                                         }
                                     }
                                     if (queryDocumentSnapshots.isEmpty() || !apostado) {
                                         partidos.add(partido);
-                                        aux=1;
                                         Collections.sort(partidos, new Comparator<Partido>() {
                                             @Override
                                             public int compare(Partido o1, Partido o2) {  //Se ordenar los partidos por fecha
@@ -160,9 +159,6 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
                                             }
                                         });
                                         adapterRecyclerPartido.notifyDataSetChanged();
-                                    }
-                                    if(aux==0){
-                                        Toast.makeText(ApostarActivity.this, "No hay partidos para apostar", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -339,6 +335,7 @@ public class ApostarActivity extends AppCompatActivity implements AdapterRecycle
     private void goPrincipalActivity() {
         Intent i = new Intent(ApostarActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 

@@ -171,6 +171,7 @@ public class JugadorActivity extends AppCompatActivity implements AdapterRecycle
     private void goPrincipal() {
         Intent i = new Intent(JugadorActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 

@@ -100,4 +100,9 @@
     <string name="tercerlugar">Tercer Lugar</string>
     <string name="finals">Final</string>
 
+    //Mensaje finalización Copa
+    <string name="titulo_mensaje">Copa América 2019 Finalizada</string>
+    <string name="mensaje">Gracias por participar en la quiniela de la Copa America 2019, puedes ver el resultado de la quiniela
+            en la pestaña Quiniela.</string>
+
 </resources>

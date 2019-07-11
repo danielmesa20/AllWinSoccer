@@ -30,187 +30,187 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/finals"
-                android:textColor="@color/colorWhite"
-                android:background="@color/colorPrimaryDark"
-                android:textSize="24sp" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_final"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/tercerlugar"
-                android:textColor="@color/colorWhite"
-                android:background="@color/colorPrimaryDark"
-                android:textSize="24sp" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_tercerlugar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/semifinales"
-                android:textColor="@color/colorWhite"
-                android:background="@color/colorPrimaryDark"
-                android:textSize="24sp" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_semifinales"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/cuartos"
-                android:textColor="@color/colorWhite"
-                android:background="@color/colorPrimaryDark"
-                android:textSize="24sp" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_cuartos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/tablaGrupos"
-                android:textColor="@color/colorWhite"
-                android:textSize="24sp"
-                android:background="@color/colorPrimaryDark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="@string/grupoA"
-                android:textColor="@color/colorWhite"
-                android:textSize="18sp" />
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@color/colorBlueDark"
-                android:orientation="horizontal"
-                android:textColor="@color/colorWhite">
-
-                <TextView
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|start"
-                    android:text="@string/nombreEquipo"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/pJ"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/pG"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/pE"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/pP"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/gF"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/gC"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/df"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorPrimaryDark"
                     android:gravity="center"
-                    android:text="@string/p"
+                    android:padding="10dp"
+                    android:text="@string/finals"
                     android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
+                    android:textSize="24sp" />
 
-            </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_final"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/tercerlugar"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="24sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_tercerlugar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/semifinales"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="24sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_semifinales"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/cuartos"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="24sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_cuartos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/tablaGrupos"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="@string/grupoA"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorBlueDark"
+                    android:orientation="horizontal"
+                    android:textColor="@color/colorWhite">
+
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|start"
+                        android:text="@string/nombreEquipo"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/pJ"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/pG"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/pE"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/pP"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/gF"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/gC"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/df"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/p"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_grupoA"
@@ -218,201 +218,195 @@
                     android:layout_height="wrap_content">
                 </android.support.v7.widget.RecyclerView>
 
-            </RelativeLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="@string/grupoB"
-                android:textColor="@color/colorWhite"
-                android:textSize="18sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@color/colorBlueDark"
-                android:orientation="horizontal">
-
                 <TextView
-                    android:layout_width="120dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center|start"
-                    android:text="@string/nombreEquipo"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:text="@string/pJ"
+                    android:text="@string/grupoB"
                     android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
+                    android:textSize="18sp" />
 
-                <TextView
-                    android:layout_width="25dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/pG"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorBlueDark"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/pE"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|start"
+                        android:text="@string/nombreEquipo"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
 
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/pP"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/pJ"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/gF"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/pG"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/gC"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/pE"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/df"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/pP"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/gF"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/gC"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/df"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/p"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_grupoB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:text="@string/p"
+                    android:text="@string/grupoC"
                     android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
+                    android:textSize="18sp" />
 
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_grupoB"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/grupoC"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/colorWhite"
-                android:textSize="18sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@color/colorBlueDark"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|start"
-                    android:text="@string/nombreEquipo"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="15sp"
-
-                    />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/pJ"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp"
-
-                    />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/pG"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/pE"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/pP"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/gF"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/gC"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/df"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/p"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorBlueDark"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|start"
+                        android:text="@string/nombreEquipo"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp"
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                        />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/pJ"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp"
+
+                        />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/pG"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/pE"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/pP"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/gF"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/gC"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/df"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/p"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_grupoC"
@@ -420,9 +414,9 @@
                     android:layout_height="wrap_content">
                 </android.support.v7.widget.RecyclerView>
 
-            </RelativeLayout>
+            </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </ScrollView>
 

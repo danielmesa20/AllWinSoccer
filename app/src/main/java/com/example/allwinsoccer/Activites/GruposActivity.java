@@ -239,6 +239,7 @@ public class GruposActivity extends AppCompatActivity implements AdapterRecycler
     private void goPrincipalActivity() {
         Intent i = new Intent(GruposActivity.this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("idUser", getIntent().getStringExtra("idUser"));
         startActivity(i);
     }
 
